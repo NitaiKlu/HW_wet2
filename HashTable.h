@@ -28,6 +28,7 @@ private:
 
     Item** items; //array of pointers to item - this is the table itself
     int hash(int key, int index); //double hashing
+    void DestroyItems();
 public:
     HashTable();
     HashTable(const HashTable<T> &copy);
@@ -76,37 +77,50 @@ HashTable<T>::HashTable(const HashTable<T> &copy) : size(copy.size), count(copy.
 }
 
 template <class T>
+void HashTable<T>::DestroyItems()
+{
+    for (int i = 0; i < size; i++)
+    {
+        delete items[i];
+    }
+}
+
+template <class T>
 HashTable<T>::~HashTable()
 {
+    DestroyItems();
     delete items;
 }
 
 template <class T>
 void HashTable<T>::reHash()
 {
+    //creating and inizializing a new_items array
     Item** new_items;
-    *new_items = new Item[size*FACTOR];
+    new_items = new Item*[size*FACTOR];
+    for(int i=0; i<size*FACTOR; i++)
+    {
+        new_items[i] = new Item;
+        new_items[i]->key = NOT_EXIST;
+        new_items[i]->data = nullptr;
+    }
     int previous = size;
     size = size*FACTOR;
     int key;
-    for(int i=0; i < size; i++)
+    //transferring the elements
+    for(int i=0; i < previous; i++)
     {
         int j=0;
         if(items[i]->key != NOT_EXIST) { //there is an element to copy from this cell
             key = items[i]->key; 
-            while(j < size && new_items[hash(key, j)]->key == NOT_EXIST) //looking for a free spot
+            while(j < size && new_items[hash(key, j)]->key != NOT_EXIST) //looking for a free spot
             {
                 j++;
-            }
-            if(j == size - 1) { //still couldn't find a spot
-                size = previous;
-                reHash();
             }
             new_items[hash(key, j)]->key = items[i]->key;
             new_items[hash(key, j)]->data = items[i]->data;
         }  
     }
-    delete items;
     items = new_items;
 }
 

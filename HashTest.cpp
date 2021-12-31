@@ -7,12 +7,9 @@
 #include "HashTable.h"
 
 #define THEWALL() (cout<<"-----------------------------"<<endl)
-#define TEST(i, message) (cout<< "TEST " << (i) <<" TESTING "<<#message<< endl)
+#define TEST(i, message) (cout<< "TEST " << (i) <<" TESTING "<<#message<< endl) 
 
-/**
- * MISSING:
- * Tests on reHashing the entire table when it's full 
- * */
+
 int main(int argc, const char **argv)
 	{
         TEST(1.1, insert);
@@ -56,5 +53,20 @@ int main(int argc, const char **argv)
         }
         cout<<"////empty:///"<<endl;
         table.printHashTable(); 
+
+        TEST(2.1, reHashing);
+        for (int i = 0; i < 42; i++)
+        {
+            int complicated = (i*(i+10)) % 79;
+            table.insert(complicated, complicated);
+        }
+        table.printHashTable();
+        THEWALL();
+        for(int i=0; i<10;i++) //exceeding the maximum size :O oh shitttttt
+        {
+            int complicated = (i*(i+10)) % 79;
+            table.insert(complicated, complicated);
+        }
+        table.printHashTable();
 		return 0;
 	}
