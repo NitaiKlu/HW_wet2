@@ -9,6 +9,10 @@
 #define THEWALL() (cout<<"-----------------------------"<<endl)
 #define TEST(i, message) (cout<< "TEST " << (i) <<" TESTING "<<#message<< endl)
 
+/**
+ * MISSING:
+ * Tests on reHashing the entire table when it's full 
+ * */
 int main(int argc, const char **argv)
 	{
         TEST(1.1, insert);
