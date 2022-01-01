@@ -13,7 +13,10 @@ using std::shared_ptr;
 #define PRIME 37
 #define FACTOR 2
 #define NOT_EXIST -1
-
+/**remain:
+ * change to new size*factor or nearest prime when rehashing?
+ * valgrind check
+ * */
 template <class T>
 class HashTable
 {
@@ -34,8 +37,9 @@ public:
     HashTable();
     HashTable(const HashTable<T> &copy);
     ~HashTable();
+    int getCount();
     void reHash();
-    void insert(int key, T data);
+    void insert(int key, T& data);
     void remove(int key);
     bool isExist(int key);
     T &find(int key);
@@ -92,6 +96,12 @@ HashTable<T>::~HashTable()
     delete items;
 }
 
+template<class T>
+int HashTable<T>::getCount()
+{
+    return count;
+}
+
 template <class T>
 int HashTable<T>::findMyHash(int key)
 {
@@ -141,7 +151,7 @@ void HashTable<T>::reHash()
 }
 
 template <class T>
-void HashTable<T>::insert(int key, T data)
+void HashTable<T>::insert(int key, T& data)
 {
     if (count == size - 1) //the table is full
     {
