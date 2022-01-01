@@ -24,7 +24,9 @@ int main(int argc, const char **argv)
         TEST(1.2, find);
         for (int i = 0; i < 20; i++)
         {
-            int res = table.find(i);
+            int res;
+            if(table.isExist(i))
+               res = table.find(i);
             cout<< res << endl;
         }
         cout<<"EXPECTED: 0 THROUGH 9 ONLY" <<endl;
