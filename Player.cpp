@@ -5,7 +5,7 @@ int Player::getLevel() const
     return level;
 }
 
-int Player::getGroup()
+int Player::getGroup() const
 {
     return group;
 }

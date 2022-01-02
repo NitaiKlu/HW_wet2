@@ -5,6 +5,9 @@
 
 using std::cout;
 using std::endl;
+using std::shared_ptr;
+class Player;
+typedef shared_ptr<Player> Player_ptr;
 
 class Player
 {
@@ -19,7 +22,7 @@ public:
     ~Player() = default;
     int getId() const;
     int getLevel() const;
-    int getGroup();
+    int getGroup() const;
     void setGroup(int new_group);
     void setLevel(int new_level);
     void printPlayer() const;
