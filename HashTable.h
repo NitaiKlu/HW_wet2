@@ -158,7 +158,7 @@ void HashTable<T>::insert(int key, T& data)
         reHash();
     }
     int index = findMyHash(key); //looking for a free cell
-    if (index == -1)             //still couldn't find a spot
+    if (index == NOT_EXIST)             //still couldn't find a spot
     {
         reHash();
         insert(key, data);
@@ -167,8 +167,8 @@ void HashTable<T>::insert(int key, T& data)
     {
         items[index]->key = key;
         items[index]->data = make_shared<T>(data);
+        count++;
     }
-    count++;
 }
 
 template <class T>
@@ -181,17 +181,15 @@ void HashTable<T>::remove(int key)
     }
     for (i = 0; i < size; i++)
     {
-        if (items[hash(key, i)]->key == key)
+        int index = hash(key, i);
+        if (items[index]->key == key) //key was found
         {
-            break;
+            items[index]->key = NOT_EXIST;
+            items[index]->data = nullptr;
+            count--;
         }
     }
-    if (i != size) //key was found
-    {
-        items[hash(key, i)]->key = NOT_EXIST;
-        items[hash(key, i)]->data = nullptr;
-        count--;
-    }
+//do nothing if key wasn't found
 }
 
 template <class T>

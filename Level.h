@@ -33,7 +33,7 @@ public:
     bool isEmpty();
     bool isPlayerExist(Id id);
     //Player_ptr getPlayerPtr(Id id);
-    //assumes the player is "legal"
+    //assumes the player is "legal":
     Status addPlayer(Player& player);
     Status removePlayer(Id id);
     int getSizeOfLevel(); //number of players in this level
