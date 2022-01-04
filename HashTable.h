@@ -39,6 +39,7 @@ private:
     int count;       //number of elements within the table
     Item<T> **items; //array of pointers to item - this is the table itself
     Item<T> *deleted;
+    Item<T> *not_exist;
     int hash(int key, int index) const; //double hashing
     void DestroyItems();
     int findMyHash(int key); //receives a key and returns the index of a free cell for it to be placed in it or ALREADY_THERE
@@ -74,11 +75,12 @@ template <class T>
 HashTable<T>::HashTable() : size(M), count(0)
 {
     items = new Item<T> *[M];
+    deleted = new Item<T>(DELETED);
+    not_exist = new Item<T>(NOT_EXIST);
     for (int i = 0; i < M; i++)
     {
-        items[i]->key = NOT_EXIST;
+        items[i] = not_exist;
     }
-    deleted = new Item<T>(DELETED);
 }
 
 /**template <class T>
@@ -95,7 +97,10 @@ void HashTable<T>::DestroyItems()
 {
     for (int i = 0; i < size; i++)
     {
-        delete items[i];
+        if (items[i] != deleted && items[i] != not_exist)
+        {
+            delete items[i];
+        }
     }
 }
 
@@ -105,6 +110,7 @@ HashTable<T>::~HashTable()
     DestroyItems();
     delete[] items;
     delete deleted;
+    delete not_exist;
 }
 
 template <class T>
@@ -142,7 +148,7 @@ void HashTable<T>::deHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size = findCLosestPrime(size * DECREASE_FACTOR * 2);
+    int new_size; //= findCLosestPrime(size * DECREASE_FACTOR * 2);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
@@ -174,14 +180,12 @@ void HashTable<T>::deHash()
     items = new_items;
 }
 
-
-
 template <class T>
 void HashTable<T>::reHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size = findCLosestPrime(size * FACTOR);
+    int new_size; //= findCLosestPrime(size * FACTOR);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
@@ -255,10 +259,11 @@ void HashTable<T>::remove(int key)
             delete temp;
             items[index] = deleted;
             count--;
+            break;
         }
     }
-    if (count <= DECREASE_FACTOR * size) //need to decrease table size
-    { 
+    if (count <= DECREASE_FACTOR * size && size > M) //need to decrease table size
+    {
         deHash();
     }
 }
