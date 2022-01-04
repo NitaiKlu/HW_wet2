@@ -18,8 +18,6 @@ typedef enum
 } Status;
 
 typedef int Id;
-typedef shared_ptr<Level> Level_ptr;
-
 class Level
 {
 private:
@@ -38,5 +36,5 @@ public:
     int getSizeOfLevel() const; //number of players in this level
     int getLevel() const; //returns what level is this
 };
-
+typedef shared_ptr<Level> Level_ptr;
 #endif // LEVEL_H_
