@@ -44,6 +44,7 @@ private:
     RNode<T> *internalInsert(RNode<T> *node, int key_to_insert, const T &data, RNode<T> *to_return);
     RNode<T> *internalRemove(RNode<T> *node, int key_to_remove);
     RNode<T> *internalClear(RNode<T> *root_ptr);
+    RNode<T> *search(const int key) const;
 
 public:
     RTree(int rank_size);
@@ -59,7 +60,7 @@ public:
     void printTree() const;
     void printTree(const std::string &prefix, const RNode<T> *node, bool isLeft) const;
     */
-    RNode<T> *search(const int key) const;
+
     bool isEmpty() const;
     int getSize() const;
     bool isExist(int key_to_find) const;
@@ -70,6 +71,9 @@ public:
     int Rank(const int key, const int ind) const;
     int Select(const int rank, const int ind) const;
     void updateSize(int key_to_update, int index, int new_size);
+    //these two return a key
+    int searchFromBelow(int upper_key);
+    int searchFromAbove(int lower_key);
 };
 /*
 //This iterator is calld const because the TNodes' keys are immutable
