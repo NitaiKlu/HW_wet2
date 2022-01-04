@@ -15,25 +15,31 @@ using std::shared_ptr;
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
 #define DELETED -3
+#define DECREASE_FACTOR 0.25
 /**remain:
  * change to new size*factor or nearest prime when rehashing?
  * valgrind check
- * add consts and const &
  * */
+template <class T>
+class Item
+{
+public:
+    int key;
+    T data;
+    Item(int key) : key(key){};
+    Item(int key, const T &data) : key(key), data(data){};
+    ~Item() = default;
+};
+
 template <class T>
 class HashTable
 {
 private:
-    int size;  //size of the table
-    int count; //number of elements within the table
-    struct
-    {
-        int key;
-        T* data;
-    } typedef Item;
-
-    Item *items;                  //array of pointers to item - this is the table itself
-    int hash(int key, int index); //double hashing
+    int size;        //size of the table
+    int count;       //number of elements within the table
+    Item<T> **items; //array of pointers to item - this is the table itself
+    Item<T> *deleted;
+    int hash(int key, int index) const; //double hashing
     void DestroyItems();
     int findMyHash(int key); //receives a key and returns the index of a free cell for it to be placed in it or ALREADY_THERE
     int findCLosestPrime(int number);
@@ -43,7 +49,8 @@ public:
     HashTable(const HashTable<T> &copy) = delete;
     ~HashTable();
     int getCount() const;
-    void reHash();
+    void reHash(); //enlarging the table
+    void deHash(); //decreasing the table
     void insert(int key, const T &data);
     void remove(int key);
     bool isExist(int key) const;
@@ -56,7 +63,7 @@ public:
  * ****************************/
 
 template <class T>
-int HashTable<T>::hash(int key, int index)
+int HashTable<T>::hash(int key, int index) const
 {
     int hash1 = key % size;
     int hash2 = PRIME - (key % PRIME);
@@ -66,11 +73,12 @@ int HashTable<T>::hash(int key, int index)
 template <class T>
 HashTable<T>::HashTable() : size(M), count(0)
 {
-    items = new Item*[M];
+    items = new Item<T> *[M];
     for (int i = 0; i < M; i++)
     {
         items[i]->key = NOT_EXIST;
     }
+    deleted = new Item<T>(DELETED);
 }
 
 /**template <class T>
@@ -87,7 +95,6 @@ void HashTable<T>::DestroyItems()
 {
     for (int i = 0; i < size; i++)
     {
-        delete items[i]->data;
         delete items[i];
     }
 }
@@ -97,6 +104,7 @@ HashTable<T>::~HashTable()
 {
     DestroyItems();
     delete[] items;
+    delete deleted;
 }
 
 template <class T>
@@ -114,7 +122,7 @@ int HashTable<T>::findMyHash(int key)
     int j = 0;
     int index = hash(key, j);
     while (j < size && items[index]->key > 0) //looking for a free spot
-    {                                        //this cell is not DELETED and not NOT_EXIST
+    {                                         //this cell is not DELETED and not NOT_EXIST
         index = hash(key, j);
         if (items[index]->key == key) //the element we passed through has the same key
         {
@@ -130,41 +138,75 @@ int HashTable<T>::findMyHash(int key)
 }
 
 template <class T>
-void HashTable<T>::reHash()
+void HashTable<T>::deHash()
 {
     //creating and inizializing a new_items array
-    Item **new_items;
-    int new_size = findCLosestPrime(size * FACTOR);
-    new_items = new Item*[new_size];
+    Item<T> **new_items;
+    int new_size = findCLosestPrime(size * DECREASE_FACTOR * 2);
+    new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
         new_items[i]->key = NOT_EXIST;
     }
+    int previous = size;
+    size = new_size;
     //transferring the elements
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < previous; i++)
     {
         int key, index, j = 0;
-        if (items[i]->key != NOT_EXIST) //items[i] is NOT_EXIST or DELETED.
+        if (items[i]->key > 0) //items[i] exists.
         {
-            if (items[i]->key == DELETED) //data to destroy
-            {
-                delete items[i].data;
-            }
-            else //there is an element to copy from this cell
+            //there is an element to copy from this cell
+            index = hash(key, j);
+            while (j < size && new_items[index]->key != NOT_EXIST) //looking for a free spot
+            //we don't mind if it finds DELETED, that's even good
             {
                 index = hash(key, j);
-                while (j < size && new_items[index]->key != NOT_EXIST) //looking for a free spot
-                //we don't mind if it finds DELETED, that's even good
-                {
-                    index = hash(key, j);
-                    j++;
-                }
-                /*****************
+                j++;
+            }
+            /*****************
              * what happen's if j can't find a spot?
              * ****************/
-                new_items[index]->key = items[i]->key;
-                new_items[index]->data = items[i]->data;
+            new_items[index] = items[i];
+        }
+    }
+    delete[] items;
+    items = new_items;
+}
+
+
+
+template <class T>
+void HashTable<T>::reHash()
+{
+    //creating and inizializing a new_items array
+    Item<T> **new_items;
+    int new_size = findCLosestPrime(size * FACTOR);
+    new_items = new Item<T> *[new_size];
+    for (int i = 0; i < new_size; i++)
+    {
+        new_items[i]->key = NOT_EXIST;
+    }
+    int previous = size;
+    size = new_size;
+    //transferring the elements
+    for (int i = 0; i < previous; i++)
+    {
+        int key, index, j = 0;
+        if (items[i]->key > 0) //items[i] exists.
+        {
+            //there is an element to copy from this cell
+            index = hash(key, j);
+            while (j < size && new_items[index]->key != NOT_EXIST) //looking for a free spot
+            //we don't mind if it finds DELETED, that's even good
+            {
+                index = hash(key, j);
+                j++;
             }
+            /*****************
+             * what happen's if j can't find a spot?
+             * ****************/
+            new_items[index] = items[i];
         }
     }
     delete[] items;
@@ -188,10 +230,9 @@ void HashTable<T>::insert(int key, const T &data)
     {
         return;
     }
-    else
+    else //found a spot! adding to the table
     {
-        items[index]->key = key;
-        items[index]->data = data;
+        items[index] = new Item<T>(key, data);
         count++;
     }
 }
@@ -199,22 +240,27 @@ void HashTable<T>::insert(int key, const T &data)
 template <class T>
 void HashTable<T>::remove(int key)
 {
+    Item<T> *temp;
     int i;
     if (count == 0 || !isExist(key)) //no data to delete
-    {
+    {                                //do nothing if key wasn't found
         return;
     }
     for (i = 0; i < size; i++)
     {
         int index = hash(key, i);
-        if (items[index].key == key) //key was found
+        if (items[index]->key == key) //key was found
         {
-            items[index].key = DELETED;
-            delete items[key]; 
+            temp = items[index];
+            delete temp;
+            items[index] = deleted;
             count--;
         }
     }
-    //do nothing if key wasn't found
+    if (count <= DECREASE_FACTOR * size) //need to decrease table size
+    { 
+        deHash();
+    }
 }
 
 template <class T>
@@ -227,6 +273,7 @@ bool HashTable<T>::isExist(int key) const
     }
     for (i = 0; i < size; i++)
     {
+
         if (items[hash(key, i)]->key == key)
         {
             return true;
@@ -258,10 +305,10 @@ void HashTable<T>::printHashTable() const
 {
     for (int i = 0; i < size; i++)
     {
-        if (items[i]->data != nullptr)
+        if (items[i] != deleted && items[i]->key != NOT_EXIST)
         {
             cout << "element number " << i << endl;
-            cout << "key: " << items[i]->key << ", data: " << *(items[i]->data) << endl;
+            cout << "key: " << items[i]->key << ", data: " << items[i]->data << endl;
         }
     }
 }
