@@ -4,7 +4,7 @@
 template <class T>
 class TNode
 {
-private:
+protected:
     int key;
     int height;
     int balance;
@@ -36,7 +36,7 @@ public:
     void setKey(int key); //dangerous function! only used by Tree
     void updateBalance();
     void updateHeight();
-    int calculate_update_balance();
+    //int calculate_update_balance();
 };
 
 template <class T>
@@ -165,11 +165,11 @@ void TNode<T>::setRight(TNode<T> *node)
     right = node;
 }
 
-template <class T>
+/*template <class T>
 int TNode<T>::calculate_update_balance()
 {
     balance = left->height - right->height;
     return balance;
-}
+}*/
 
 #endif // NODE_H_

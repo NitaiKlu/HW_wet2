@@ -14,7 +14,7 @@ using std::shared_ptr;
 template <class T>
 class Tree
 {
-private:
+protected:
     TNode<T> *root;
     TNode<T> *left_most;
     TNode<T> *right_most;
