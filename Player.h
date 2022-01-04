@@ -6,8 +6,6 @@
 using std::cout;
 using std::endl;
 using std::shared_ptr;
-class Player;
-typedef shared_ptr<Player> Player_ptr;
 
 class Player
 {
@@ -29,4 +27,5 @@ public:
     bool operator==(const Player &compare) const;
     bool operator!=(const Player &compare) const;
 };
+typedef shared_ptr<Player> Player_ptr;
 #endif // PLAYER_H_
