@@ -57,7 +57,18 @@ Status Group::removePlayer(Id id, Player_ptr player)
     return S_SUCCESS;
 }
 
-Status getPercentOfPlayersWithScoreInBounds (void *DS, int score, int lowerLevel, int higherLevel, double * players);
+Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, int higherLevel, double * players)
 {
-    
+    /**********************************************
+     * needed searchFromBelow
+     * needed searchFromAbove
+     * number of elements in the i-shRank between 2 levels in the tree
+     * seperate function to get all players between 2 levels in the tree
+     * ********************************************/
+    int low_level;
+    int high_level;
+    int score_low_rank = levels.Rank(low_level, score);
+    int score_high_rank = levels.Rank(high_level, score);
+
+    return S_SUCCESS;
 }

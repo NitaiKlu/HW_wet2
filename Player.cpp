@@ -15,6 +15,11 @@ int Player::getId() const
     return id;
 }
 
+int Player::getScore() const
+{
+    return score;
+}
+
 void Player::setLevel(int new_level)
 {
     level = new_level;
@@ -23,6 +28,11 @@ void Player::setLevel(int new_level)
 void Player::setGroup(int new_group)
 {
     group = new_group;
+}
+
+void Player::setScore(int new_score)
+{
+    score = new_score;
 }
 
 void Player::printPlayer() const

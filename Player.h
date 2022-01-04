@@ -13,14 +13,17 @@ private:
     int id;
     int level;
     int group;
+    int score;
 
 public:
-    Player(int id, int level, int group) : id(id), level(level), group(group) {}
+    Player(int id, int level, int group) : id(id), level(level), group(group), score(score) {}
     Player(const Player &copy) = default;
     ~Player() = default;
     int getId() const;
     int getLevel() const;
     int getGroup() const;
+    int getScore() const;
+    void setScore(int new_score);
     void setGroup(int new_group);
     void setLevel(int new_level);
     void printPlayer() const;

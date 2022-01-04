@@ -29,7 +29,7 @@ public:
     ~Level() = default;
     bool isEmpty() const;
     bool isPlayerExist(Id id) const;
-    //Player_ptr getPlayerPtr(Id id);
+    Player_ptr getPlayerPtr(Id id);
     //assumes the player is "legal":
     Status addPlayer(Player_ptr player);
     Status removePlayer(Id id);

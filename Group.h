@@ -23,8 +23,8 @@ public:
     Status addPlayer(Id id, Player_ptr player);
     void addLevel(Level_ptr new_level); //dangerous func, only used once in the code!
     Status removePlayer(Id id, Player_ptr player);
-    Status getPercentOfPlayersWithScoreInBounds (void *DS, int score, int lowerLevel, int higherLevel, double * players);
-    Status averageHighestPlayerLevelByGroup(void *DS, int m, double * avgLevel);
+    Status getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, int higherLevel, double * players);
+    Status averageHighestPlayerLevelByGroup(int m, double * avgLevel);
 };
 
 #endif //GROUP_H_
