@@ -3,15 +3,26 @@ Nitay:
 *   Finish Group and Game
 
 Aviv:
-*   rank
-*   select
-*   searchFromBelow...
+*   Tests for:
+    *   searchFrom...
+    *   select
+*   Implement:
+    * selectFrom...
 
 Discussion:
-*   //For now, Select will use ind=rank_size+1, meaning the
-    //"normal" rank (representing the index, if the tree was a sorted array)
-    //Because we could have two nodes with the same rank in regard to ind=/=rank_size+1 
-    //=>
-    //int Select(int rank, int ind) const;
-    int Select(int rank) const;
-*   
+*   assert / throw / "-1"- TNode func's
+
+Changes:
+*   Implemented:
+    *   void RTree<T>::addToSize(int key_to_update, int index, int addition);
+    *   int RTree<T>::sumRank(int key) const;
+    *   int RTree<T>::countRank(int key) const;
+    *   int RTree<T>::sumSelect(int rank) const;
+    *   int RTree<T>::countSelect(int rank) const;
+*   Declared:
+    *   RNode<T> *internalSelectFromBelow(RNode<T> *node, int upper_key, int rank) const;
+    *   RNode<T> *internalSelectFromAbove(RNode<T> *node, int lower_key, int rank) const;
+    *   int sumSelectFromBelow(int upper_key, int rank) const;
+    *   int sumSelectFromAbove(int lower_key, int rank) const;
+    *   int countSelectFromBelow(int upper_key, int rank) const;
+    *   int countSelectFromAbove(int lower_key, int rank) const;

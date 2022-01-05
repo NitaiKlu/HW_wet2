@@ -49,6 +49,7 @@ public:
     void setKey(int key); // dangerous function! only used by Tree
     void updateBalance();
     void updateHeight();
+    void addToSize(int index, int addition);
     void updateSize(int index, int size);
     void updateAllWeights();
 };
@@ -109,8 +110,19 @@ void RNode<T>::updateWeight(int index)
 }
 
 template <class T>
+void RNode<T>::addToSize(int index, int addition)
+{
+    if (index < 0 || index > num_of_weights + 1)
+        throw std::out_of_range("Out of rank boundaries");
+    sizes[index] += addition;
+    sizes[num_of_weights] += addition;
+    updateWeight(index);
+}
+
+template <class T>
 void RNode<T>::updateSize(int index, int size)
 {
+    /*
     int old_size;
     if (index >= 0 && index < num_of_weights)
     {
@@ -119,6 +131,11 @@ void RNode<T>::updateSize(int index, int size)
     }
     sizes[num_of_weights] += size - old_size;
     updateWeight(index);
+    */
+   if (index < 0 || index > num_of_weights + 1)
+        throw std::out_of_range("Out of rank boundaries");
+   int addition = size - sizes[index];
+   addToSize(index, addition);
 }
 
 template <class T>
@@ -135,25 +152,27 @@ void RNode<T>::updateAllWeights()
 template <class T>
 int RNode<T>::getSize(int i) const
 {
-    //assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
-    if (i<0 || i>num_of_weights+1) throw std::out_of_range("Out of rank boundaries");
-    //if (i >= 0 && i < num_of_weights+2)
+    // assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
+    if (i < 0 || i > num_of_weights + 1)
+        throw std::out_of_range("Out of rank boundaries");
+    // if (i >= 0 && i < num_of_weights+2)
     //{
-        return sizes[i];
+    return sizes[i];
     //}
-    //return -9999;
+    // return -9999;
 }
 
 template <class T>
 int RNode<T>::getWeight(int i) const
 {
-    //assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
-    if (i<0 || i>num_of_weights+1) throw std::out_of_range("Out of rank boundaries");
-    //if (i >= 0 && i < num_of_weights+2)
+    // assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
+    if (i < 0 || i > num_of_weights + 1)
+        throw std::out_of_range("Out of rank boundaries");
+    // if (i >= 0 && i < num_of_weights+2)
     //{
-        return weights[i];
+    return weights[i];
     //}
-    //return -9999;
+    // return -9999;
 }
 
 template <class T>
@@ -165,7 +184,7 @@ int RNode<T>::getSumWeight() const
 template <class T>
 int RNode<T>::getCountWeight() const
 {
-    return getWeight(num_of_weights+1);
+    return getWeight(num_of_weights + 1);
 }
 
 template <class T>
@@ -271,7 +290,5 @@ void RNode<T>::setRight(RNode<T> *node)
 {
     right = node;
 }
-
-
 
 #endif // RNODE_H_
