@@ -66,25 +66,33 @@ public:
     */
 
     bool isEmpty() const;
-    int getSize() const;
+    int getTreeSize() const;
     bool isExist(int key_to_find) const;
     T &getData(int key_to_find) const;
     T &insert(int key, const T &data);
     void remove(int key);
     void clearAll();
-    int Rank(int key, int ind) const;
+    int RankAt(int key, int ind) const;
+    int Rank(int key) const;
 
-    //For now, Select will use ind=rank_size+1, meaning the
+    // For now, Select will use ind=rank_size+1, meaning the
     //"normal" rank (representing the index, if the tree was a sorted array)
-    //Because we could have two nodes with the same rank in regard to ind=/=rank_size+1 
+    // Because we could have two nodes with the same rank in regard to ind=/=rank_size+1
     //=>
-    //int Select(int rank, int ind) const;
+    // int Select(int rank, int ind) const;
     int Select(int rank) const;
-    
+
     void updateSize(int key_to_update, int index, int new_size);
     // these two return a key
     int searchFromBelow(int upper_key) const;
     int searchFromAbove(int lower_key) const;
+
+    void printNodeRanks(int key) const;
+
+    //////Available ONLY FOR TESTING!//////
+    int getSize(int key, int ind) const;
+    int getWeight(int key, int ind) const;
+    ///////////////////////////////////////
 };
 /*
 //This iterator is calld const because the TNodes' keys are immutable
@@ -245,7 +253,7 @@ bool RTree<T>::isEmpty() const
 }
 
 template <class T>
-int RTree<T>::getSize() const
+int RTree<T>::getTreeSize() const
 {
     return size;
 }
@@ -424,14 +432,13 @@ RNode<T> *RTree<T>::internalUpdateSize(RNode<T> *node, int key_to_update, int in
         search = node;
         search->updateSize(index, new_size);
     }
-
     else if (key_to_update > key)
     {
-        search = internalSearch(node->getRight(), key_to_update);
+        search = internalUpdateSize(node->getRight(), key_to_update, index, new_size);
     }
     else
     {
-        search = internalSearch(node->getLeft(), key_to_update);
+        search = internalUpdateSize(node->getLeft(), key_to_update, index, new_size);
     }
     if (search != nullptr)
         node->updateAllWeights();
@@ -453,7 +460,7 @@ bool RTree<T>::isExist(int key_to_find) const
 template <class T>
 T &RTree<T>::getData(int key_to_find) const
 {
-    return search(key_to_find).getData();
+    return search(key_to_find)->getData();
 }
 
 template <class T>
@@ -522,26 +529,32 @@ int RTree<T>::internalRank(RNode<T> *node, int key, int ind, int r) const
     if (node == nullptr)
         return 0;
     int curr_key = node->getKey();
-
+    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeight(ind);
     if (key > curr_key)
     {
-        r += node->getLeft()->getWeight(ind) + node->getSize(ind);
+        r += left_weight + node->getSize(ind);
         return internalRank(node->getRight(), key, ind, r);
     }
     else if (key == curr_key)
     {
-        return r + node->getLeft()->getWeight(ind) + node->getSize(ind);
+        return r + left_weight + node->getSize(ind);
     }
     else
     {
-        return internalRank(node->getRight(), key, ind, r);
+        return internalRank(node->getLeft(), key, ind, r);
     }
 }
 
 template <class T>
-int RTree<T>::Rank(const int key, const int ind) const
+int RTree<T>::RankAt(int key, int ind) const
 {
     return internalRank(root, key, ind, 0);
+}
+
+template <class T>
+int RTree<T>::Rank(int key) const
+{
+    return RankAt(key, rank_size + 1);
 }
 
 template <class T>
@@ -549,7 +562,7 @@ RNode<T> *RTree<T>::internalSelect(RNode<T> *node, int rank, int ind) const
 {
     if (node == nullptr)
         return nullptr;
-    int left_weight = node->getLeft()->getWeight(ind);
+    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeight(ind);
     if (left_weight == rank - 1)
         return node;
     else if (left_weight > rank - 1)
@@ -564,9 +577,9 @@ RNode<T> *RTree<T>::internalSelect(RNode<T> *node, int rank, int ind) const
 }
 
 template <class T>
-int RTree<T>::Select(const int rank) const
+int RTree<T>::Select(int rank) const
 {
-    return internalSelect(root, rank, rank_size+1)->getKey();
+    return internalSelect(root, rank, rank_size + 1)->getKey();
 }
 
 /*
@@ -582,7 +595,7 @@ RNode<T> *RTree<T>::internalInsert(RNode<T> *node, int key_to_insert, const T &d
 {
     if (node == nullptr)
     {
-        to_return = new RNode<T>(key_to_insert, data);
+        to_return = new RNode<T>(rank_size, key_to_insert, data);
         size++;
         return to_return;
     }
@@ -760,4 +773,50 @@ void RTree<T>::clearAll()
 {
     root = internalClear(root);
 }
+
+template <class T>
+void RTree<T>::printNodeRanks(int key) const
+{
+    RNode<T> *node = internalSearch(root, key);
+    if (node == nullptr)
+    {
+        cout << "Key is not in the tree" << endl;
+        return;
+    }
+
+    cout << "Key: " << key << ":" << endl;
+    for (int j = 0; j < rank_size + 2; j++)
+    {
+        if (j == rank_size)
+        {
+            cout << "   Sum:    ";
+        }
+        else if (j == rank_size + 1)
+        {
+            cout << "   Count:  ";
+        }
+        else
+            cout << "   ind:   " << j;
+        cout << "   , Size: " << node->getSize(j);
+        cout << "   , Weight: " << node->getWeight(j);
+        cout << "   , Rank at ind: " << RankAt(key, j);
+        cout << "   , Rank: " << Rank(key) << endl;
+    }
+    cout << endl;
+}
+
+//////////Available ONLY FOR TESTING!//////////
+template <class T>
+int RTree<T>::getSize(int key, int ind) const
+{
+    return internalSearch(root, key)->getSize(ind);
+}
+
+template <class T>
+int RTree<T>::getWeight(int key, int ind) const
+{
+    return internalSearch(root, key)->getWeight(ind);
+}
+///////////////////////////////////////////////
+
 #endif // RTREE_H_

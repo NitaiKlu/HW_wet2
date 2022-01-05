@@ -97,11 +97,11 @@ void RNode<T>::updateWeight(int index)
 {
     if (index >= 0 && index < num_of_weights)
     {
-        //updating the weight at index
+        // updating the weight at index
         int l_weight = (left == nullptr) ? 0 : left->weights[index];
         int r_weight = (right == nullptr) ? 0 : right->weights[index];
         weights[index] = l_weight + r_weight + sizes[index];
-        //updating the size sum (at[num_of_weights])
+        // updating the size sum (at[num_of_weights])
         int l_weight_sum = (left == nullptr) ? 0 : left->weights[num_of_weights];
         int r_weight_sum = (right == nullptr) ? 0 : right->weights[num_of_weights];
         weights[index] = l_weight + r_weight + sizes[num_of_weights];
@@ -117,14 +117,14 @@ void RNode<T>::updateSize(int index, int size)
         old_size = sizes[index];
         sizes[index] = size;
     }
-    sizes[num_of_weights] += size-old_size;
+    sizes[num_of_weights] += size - old_size;
     updateWeight(index);
 }
 
 template <class T>
 void RNode<T>::updateAllWeights()
 {
-    for (int i = 0; i < num_of_weights+2; i++)
+    for (int i = 0; i < num_of_weights + 2; i++)
     {
         int l_weight = (left == nullptr) ? 0 : left->weights[i];
         int r_weight = (right == nullptr) ? 0 : right->weights[i];
@@ -135,35 +135,37 @@ void RNode<T>::updateAllWeights()
 template <class T>
 int RNode<T>::getSize(int i) const
 {
-    if (i >= 0 && i < num_of_weights)
-    {
+    //assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
+    if (i<0 || i>num_of_weights+1) throw std::out_of_range("Out of rank boundaries");
+    //if (i >= 0 && i < num_of_weights+2)
+    //{
         return sizes[i];
-    }
-    return -1;
+    //}
+    //return -9999;
 }
 
 template <class T>
 int RNode<T>::getWeight(int i) const
 {
-    if (i >= 0 && i < num_of_weights)
-    {
+    //assert(("Out of rank boundaries", i >= 0 && i < num_of_weights+2));
+    if (i<0 || i>num_of_weights+1) throw std::out_of_range("Out of rank boundaries");
+    //if (i >= 0 && i < num_of_weights+2)
+    //{
         return weights[i];
-    }
-    return -1;
+    //}
+    //return -9999;
 }
 
 template <class T>
 int RNode<T>::getSumWeight() const
 {
-
-    return weights[num_of_weights];
+    return getWeight(num_of_weights);
 }
 
 template <class T>
 int RNode<T>::getCountWeight() const
 {
-
-    return weights[num_of_weights + 1];
+    return getWeight(num_of_weights+1);
 }
 
 template <class T>
@@ -269,5 +271,7 @@ void RNode<T>::setRight(RNode<T> *node)
 {
     right = node;
 }
+
+
 
 #endif // RNODE_H_
