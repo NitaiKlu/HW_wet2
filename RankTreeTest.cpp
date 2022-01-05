@@ -39,7 +39,7 @@ int main(int argc, const char **argv)
             cout << ", Size: " << t1.getSize(2 * i, j);
             cout << ", Weight: " << t1.getWeight(2 * i, j);
             cout << ", Rank at ind=" << j << ": " << t1.RankAt(2 * i, j);
-            cout << ", Rank: " << t1.Rank(2 * i) << endl;
+            cout << ", Rank: " << t1.countRank(2 * i) << endl;
         }
         catch (const std::exception &e)
         {
