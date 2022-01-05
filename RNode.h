@@ -1,5 +1,5 @@
-#ifndef NODE_H_
-#define NODE_H_
+#ifndef RNODE_H_
+#define RNODE_H_
 
 template <class T>
 class RNode
@@ -39,6 +39,7 @@ public:
     RNode<T> *getRight() const;
     RNode<T> *getMin();
     RNode<T> *getMax();
+    int getSize(int i) const;
     int getWeight(int i) const;
     int getSumWeight() const;
     int getCountWeight() const;
@@ -129,6 +130,16 @@ void RNode<T>::updateAllWeights()
         int r_weight = (right == nullptr) ? 0 : right->weights[i];
         weights[i] = l_weight + r_weight + sizes[i];
     }
+}
+
+template <class T>
+int RNode<T>::getSize(int i) const
+{
+    if (i >= 0 && i < num_of_weights)
+    {
+        return sizes[i];
+    }
+    return -1;
 }
 
 template <class T>
