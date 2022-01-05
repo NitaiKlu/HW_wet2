@@ -1,8 +1,17 @@
 Nitay:
-*findClosestPrime
-*Finish Group and Game
+*   findClosestPrime
+*   Finish Group and Game
 
 Aviv:
-*rank
-*select
-*searchFromBelow...
+*   rank
+*   select
+*   searchFromBelow...
+
+Discussion:
+*   //For now, Select will use ind=rank_size+1, meaning the
+    //"normal" rank (representing the index, if the tree was a sorted array)
+    //Because we could have two nodes with the same rank in regard to ind=/=rank_size+1 
+    //=>
+    //int Select(int rank, int ind) const;
+    int Select(int rank) const;
+*   
