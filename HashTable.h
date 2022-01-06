@@ -4,13 +4,14 @@
 #include <iostream>
 #include <memory>
 
+using namespace std;
 using std::cout;
 using std::endl;
 using std::make_shared;
 using std::shared_ptr;
 
-#define M 41
-#define PRIME 37
+#define M 563
+#define PRIME 353
 #define FACTOR 2
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
@@ -20,6 +21,7 @@ using std::shared_ptr;
  * change to new size*factor or nearest prime when rehashing?
  * valgrind check
  * */
+
 template <class T>
 class Item
 {
@@ -81,6 +83,12 @@ HashTable<T>::HashTable() : size(M), count(0)
     {
         items[i] = not_exist;
     }
+}
+
+template <class T> 
+int HashTable<T>::findCLosestPrime(int number)
+{
+    return number;
 }
 
 /**template <class T>
@@ -148,7 +156,7 @@ void HashTable<T>::deHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size; //= findCLosestPrime(size * DECREASE_FACTOR * 2);
+    int new_size = findCLosestPrime(size * DECREASE_FACTOR * 2);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
@@ -185,7 +193,7 @@ void HashTable<T>::reHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size; //= findCLosestPrime(size * FACTOR);
+    int new_size = findCLosestPrime(size * FACTOR);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {

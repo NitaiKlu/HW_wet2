@@ -66,7 +66,7 @@ Status Game::RemovePlayer(int PlayerID)
     {
         return S_FAILURE;
     }
-    Player_ptr player = players.getPlayerPtr();
+    Player_ptr player = players.getPlayerPtr(PlayerID);
     int group_curr_id = player->getGroup();
 
     // Removing from players table
