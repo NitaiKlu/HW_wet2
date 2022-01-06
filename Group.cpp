@@ -32,9 +32,7 @@ Status Group::addPlayer(Id id, Player_ptr player)
     Level_ptr players_of_this_level = levels.getData(level);
     //adding player to the level
     players_of_this_level->addPlayer(player);
-    /**
-     * *************************************************
-     * */    levels.addToSize(level, player->getScore(), 1);
+    levels.increaseScore(level, player->getScore() - 1);
     //updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
@@ -54,9 +52,7 @@ Status Group::removePlayer(Id id, Player_ptr player)
     //remove from the level
     players_of_this_level->removePlayer(id);
     //updating size (weight) in levels (RTree)
-    /**
-     * *************************************************
-     * */    levels.addToSize(level, player->getScore(), -1);
+    levels.decreaseScore(level, player->getScore() - 1);
     //lowering number of players in the group
     num_of_players--;
     // checking if the level is now empty
@@ -74,9 +70,9 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
     int low_level = levels.searchFromAbove(lowerLevel);
     int high_level = levels.searchFromBelow(higherLevel);
     //getting the score-ish rank of both levels
-    int score_low_rank = levels.RankAt(low_level, score - 1);
-    int score_high_rank = levels.RankAt(high_level, score - 1);
-    int num_of_players_mentioned = score_high_rank - score_low_rank;
+    int score_low_rank = levels.rankAtScore(low_level, score - 1);
+    int score_high_rank = levels.rankAtScore(high_level, score - 1);
+    int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(lowerLevel, score - 1);
     if(num_of_players_mentioned == 0 || num_of_players == 0) //no players fits the purpose..
     {
         return S_FAILURE;
@@ -93,13 +89,14 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double * avgLevel)
         return S_FAILURE;
     }
     //searching for m highest leveled players in the group
-    int lower_m_level = levels.sumSelectFromAbove(num_of_players - m, num_of_players - m);
-    int num_of_levels_between; //needs to be another weight of sum of levels ... :(
-    /**
-     * decide what to do if the number isn't exactly m ?
-     * */
-
-    //
-
+    //this is the lower level:
+    int lower_m_level = levels.sumSelectFromAbove(num_of_players - m);
+    int sum_rank_lower = levels.sumRank(lower_m_level);
+    int highest_level = levels.getHighestLevel();
+    //this is the remainder of players to take from lower_m_level:
+    int additional_players = sum_rank_lower - (num_of_players - m);
+    //now calculating the product of sum * level for each level 
+    int product = levels.prodRank(highest_level) - levels.prodRank(lower_m_level) + additional_players * lower_m_level;
+    *avgLevel = product / m;
     return S_SUCCESS;
 }

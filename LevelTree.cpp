@@ -25,6 +25,12 @@ Level_ptr &LevelTree::getData(int key_to_find) const
 {
     return tree.getData(key_to_find);
 }
+
+int LevelTree::getHighestLevel() const
+{
+    return tree.getHighestLevel();
+}
+
 Level_ptr &LevelTree::insert(int key, const Level_ptr &data)
 {
     return tree.insert(key, data);
@@ -68,15 +74,16 @@ int LevelTree::sumSelect(int rank) const
     return tree.selectAt(rank, scale + 1);
 }
 /* NEEDS TO BE IMPLEMENTED!///////////////////////////////////
-int LevelTree::sumSelectFromBelow(int upper_key, int rank) const
+int LevelTree::sumSelectFromAbove(int upper_key, int rank) const
 {
     return tree.selectFromBelowAt(upper_key, rank, scale+1);
-}
-int LevelTree::sumSelectFromAbove(int lower_key, int rank) const
+}**/
+
+int LevelTree::sumSelectFromAbove(int rank) const
 {
-    return tree.selectFromAboveAt(lower_key, rank, scale+1);
+    return tree.selectFromAboveAt(rank, scale);
 }
-*/
+
 
 //"product rank"- size=sum*level- rank_index=scale+2
 int LevelTree::prodRank(int key) const

@@ -5,7 +5,7 @@
 #include "RNode.h"
 #include <cassert>
 #include <memory>
-
+#include <math.h>
 using std::cout;
 using std::endl;
 using std::make_shared;
@@ -51,7 +51,7 @@ private:
     int internalRank(RNode<T> *node, int key, int ind, int r) const;
     RNode<T> *internalSelect(RNode<T> *node, int rank, int ind) const;
     RNode<T> *internalSelectFromBelow(RNode<T> *node, int upper_key, int rank) const;
-    RNode<T> *internalSelectFromAbove(RNode<T> *node, int lower_key, int rank) const;
+    RNode<T> *internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const;
 
 public:
     RTree(int rank_size);
@@ -70,6 +70,7 @@ public:
 
     bool isEmpty() const;
     int getTreeSize() const;
+    int getHighestLevel() const;
     bool isExist(int key_to_find) const;
     T &getData(int key_to_find) const;
     T &insert(int key, const T &data);
@@ -88,7 +89,7 @@ public:
     int selectFromBelowAt(int upper_key, int rank, int ind) const; // Might not be well defined
 
     int selectFromAbove(int lower_key, int rank) const;
-    int selectFromAboveAt(int lower_key, int rank, int ind) const; // Might not be well defined
+    int selectFromAboveAt(int rank, int ind) const; // Might not be well defined
 
     void updateSize(int key_to_update, int index, int new_size);
     void addToSize(int key_to_update, int index, int addition);
@@ -263,6 +264,12 @@ template <class T>
 int RTree<T>::getTreeSize() const
 {
     return size;
+}
+
+template <class T>
+int RTree<T>::getHighestLevel() const
+{
+    return right_most->getKey();
 }
 
 template <class T>
@@ -650,6 +657,39 @@ typename Tree<T>::const_iterator Tree<T>::search(const int key) const
     return Tree<T>::const_iterator(this, internalSearch(root, key));
 }
 */
+template <class T>
+int RTree<T>::selectFromAboveAt(int rank, int ind) const
+{
+    return internalSelectFromAbove(root, rank, ind, root, -1)->getKey();
+}
+template <class T>
+RNode<T>* RTree<T>::internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const
+{
+    if (node == nullptr)
+        return nullptr;
+    if(rank < 0)
+        return keeper;
+    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
+    if (left_weight == rank - 1)
+        return node;
+    if(left_weight + node->getSizeAt(ind) >= rank) { //cause wer'e searching from above
+        if(left_weight + node->getSizeAt(ind) - rank < min_diff || min_diff == -1) { //this is closer than keeper
+            keeper = node;
+            min_diff = left_weight + node->getSizeAt(ind) - rank;
+        }
+    }
+    if (left_weight > rank - 1)
+    {
+        return internalSelect(node->getLeft(), rank, ind);
+    }
+    else
+    {
+        rank -= left_weight + node->getSizeAt(ind);
+        return internalSelect(node->getRight(), rank, ind);
+    }
+}
+
+
 
 template <class T>
 RNode<T> *RTree<T>::internalInsert(RNode<T> *node, int key_to_insert, const T &data, RNode<T> *to_return)

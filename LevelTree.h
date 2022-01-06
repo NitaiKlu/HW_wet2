@@ -20,6 +20,7 @@ public:
 
     bool isEmpty() const;
     int getTreeSize() const;
+    int getHighestLevel() const;
     bool isExist(int key_to_find) const;
     Level_ptr &getData(int key_to_find) const;
     Level_ptr &insert(int key, const Level_ptr &data);
@@ -30,13 +31,13 @@ public:
     int rank(int key) const;
     int select(int rank) const;
     //int selectFromBelow(int upper_key, int rank) const;
-    //int selectFromAbove(int lower_key, int rank) const;
+    int selectFromAbove(int lower_key, int rank) const;
 
     //"sum rank"- size=sum{sizes}- rank_index=scale
     int sumRank(int key) const;
     int sumSelect(int rank) const;
     //int sumSelectFromBelow(int upper_key, int rank) const;
-    //int sumSelectFromAbove(int lower_key, int rank) const;
+    int sumSelectFromAbove(int lower_key) const;
 
     //"product rank"- size=sum*level- rank_index=scale+1
     int prodRank(int key) const;

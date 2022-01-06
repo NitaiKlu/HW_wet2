@@ -7,11 +7,12 @@ bool Game::isInRange(int range, int number) const
 
 Status Game::MergeGroups(int GroupID1, int GroupID2)
 {
-    if(!isInRange(num_of_groups, GroupID1) || !isInRange(num_of_groups, GroupID2))
+    if (!isInRange(num_of_groups, GroupID1) || !isInRange(num_of_groups, GroupID2))
     {
         return S_INVALID_INPUT;
     }
-    try {
+    try
+    {
         groups.Union(groups.Find(GroupID1), groups.Find(GroupID2));
     }
     catch (const std::exception &e)
@@ -28,7 +29,7 @@ Status Game::AddPlayer(int PlayerID, int GroupID, int score)
     {
         return S_INVALID_INPUT;
     }
-    if(players.isPlayerExist(PlayerID))
+    if (players.isPlayerExist(PlayerID))
     {
         return S_FAILURE;
     }
@@ -58,11 +59,11 @@ Status Game::AddPlayer(int PlayerID, int GroupID, int score)
 
 Status Game::RemovePlayer(int PlayerID)
 {
-    if(PlayerID <= 0)
+    if (PlayerID <= 0)
     {
         return S_INVALID_INPUT;
     }
-    if(!players.isPlayerExist(PlayerID))
+    if (!players.isPlayerExist(PlayerID))
     {
         return S_FAILURE;
     }
@@ -87,7 +88,7 @@ Status Game::increasePlayerIDLevel(int PlayerID, int LevelIncrease)
     {
         return S_INVALID_INPUT;
     }
-    if(!players.isPlayerExist(PlayerID))
+    if (!players.isPlayerExist(PlayerID))
     {
         return S_FAILURE;
     }
@@ -118,11 +119,11 @@ Status Game::increasePlayerIDLevel(int PlayerID, int LevelIncrease)
 
 Status Game::changePlayerIDScore(int PlayerID, int NewScore)
 {
-    if(PlayerID <= 0 || isInRange(scale, NewScore))
+    if (PlayerID <= 0 || isInRange(scale, NewScore))
     {
         return S_INVALID_INPUT;
     }
-    if(!players.isPlayerExist(PlayerID))
+    if (!players.isPlayerExist(PlayerID))
     {
         return S_FAILURE;
     }
@@ -151,6 +152,48 @@ Status Game::changePlayerIDScore(int PlayerID, int NewScore)
     return S_SUCCESS;
 }
 
-Status getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lowerLevel, int higherLevel, double *players);
-Status averageHighestPlayerLevelByGroup(int GroupID, int m, double *avgLevel);
-Status getPlayersBound(void *DS, int GroupID, int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);
+Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lowerLevel, int higherLevel, double *players)
+{
+    if (!isInRange(num_of_groups, GroupID)) //group is illegal
+    {
+        return S_INVALID_INPUT;
+    }
+    Group_ptr group;
+    if (GroupID != 0) //a specific group and not the entire game
+    {
+        group = groups.getData(GroupID);
+        return group->getPercentOfPlayersWithScoreInBounds(score, lowerLevel, higherLevel, players);
+    }
+    else
+    {
+        return levels.getPercentOfPlayersWithScoreInBounds(score, lowerLevel, higherLevel, players);
+    }
+}
+
+Status Game::averageHighestPlayerLevelByGroup(int GroupID, int m, double *avgLevel)
+{
+    if (!isInRange(num_of_groups, GroupID) || m <= 0) //group or m are illegal
+    {
+        return S_INVALID_INPUT;
+    }
+    try
+    {
+        Group_ptr group;
+        if (GroupID != 0) //a specific group and not the entire game
+        {
+            group = groups.getData(GroupID);
+            return group->averageHighestPlayerLevelByGroup(m, avgLevel);
+        }
+        else
+        {
+            return levels.averageHighestPlayerLevelByGroup(m, avgLevel);
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        return S_ALLOCATION_ERROR;
+    }
+    
+}
+//Status getPlayersBound(void *DS, int GroupID, int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);
