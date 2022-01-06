@@ -39,8 +39,9 @@ private:
     RNode<T> *internalArrayToTree(RNode<T> *parent, int *keys, T *array, int start, int end);
     */
     RNode<T> *internalSearch(RNode<T> *node, int key_to_find) const;
-    RNode<T> *internalUpdateSize(RNode<T> *node, int key_to_update, int index, int new_size);
-    int internalRank(RNode<T> *node, int key_to_find) const;
+    // RNode<T> *internalUpdateSize(RNode<T> *node, int key_to_update, int index, int new_size);
+    RNode<T> *internalAddToSize(RNode<T> *node, int key_to_update, int index, int addition);
+    //int internalRank(RNode<T> *node, int key_to_find) const;
     RNode<T> *internalInsert(RNode<T> *node, int key_to_insert, const T &data, RNode<T> *to_return);
     RNode<T> *internalRemove(RNode<T> *node, int key_to_remove);
     RNode<T> *internalClear(RNode<T> *root_ptr);
@@ -75,16 +76,19 @@ public:
     void remove(int key);
     void clearAll();
 
-    int RankAt(int key, int ind) const;
-    int sumRank(int key) const;
-    int countRank(int key) const;
-    int sumSelect(int rank) const;
-    int countSelect(int rank) const;
+    void checkBounds(int index) const;
 
-    int sumSelectFromBelow(int upper_key, int rank) const;
-    int sumSelectFromAbove(int lower_key, int rank) const;
-    int countSelectFromBelow(int upper_key, int rank) const;
-    int countSelectFromAbove(int lower_key, int rank) const;
+    int rank(int key) const;
+    int rankAt(int key, int ind) const;
+
+    int select(int rank) const;
+    int selectAt(int rank, int ind) const; // Might not be well defined
+
+    int selectFromBelow(int upper_key, int rank) const;
+    int selectFromBelowAt(int upper_key, int rank, int ind) const; // Might not be well defined
+
+    int selectFromAbove(int lower_key, int rank) const;
+    int selectFromAboveAt(int lower_key, int rank, int ind) const; // Might not be well defined
 
     void updateSize(int key_to_update, int index, int new_size);
     void addToSize(int key_to_update, int index, int addition);
@@ -92,11 +96,11 @@ public:
     int searchFromBelow(int upper_key) const;
     int searchFromAbove(int lower_key) const;
 
-    void printNodeRanks(int key) const;
+    void printNodeRank(int key, int index) const;
 
     //////Available ONLY FOR TESTING!//////
-    int getSize(int key, int ind) const;
-    int getWeight(int key, int ind) const;
+    int getSizeAt(int key, int ind) const;
+    int getWeightAt(int key, int ind) const;
     ///////////////////////////////////////
 };
 /*
@@ -246,9 +250,7 @@ RNode<T> *RTree<T>::internalClear(RNode<T> *root_ptr)
 template <class T>
 RTree<T>::~RTree()
 {
-    root = internalClear(root);
-    left_most = nullptr;
-    right_most = nullptr;
+    clearAll();
 }
 
 template <class T>
@@ -426,10 +428,19 @@ RNode<T> *RTree<T>::internalSearch(RNode<T> *node, int key_to_find) const
 }
 
 template <class T>
+void RTree<T>::checkBounds(int index) const
+{
+    if (index <= 0 || index > rank_size)
+        throw std::out_of_range("Out of rank boundaries");
+}
+
+/*
+template <class T>
 RNode<T> *RTree<T>::internalUpdateSize(RNode<T> *node, int key_to_update, int index, int new_size)
 {
     if (node == nullptr)
         return nullptr;
+    checkBounds(index);
     int key = node->getKey();
     RNode<T> *search;
     if (key_to_update == key)
@@ -455,14 +466,42 @@ void RTree<T>::updateSize(int key_to_update, int index, int new_size)
 {
     internalUpdateSize(root, key_to_update, index, new_size);
 }
+*/
+
+template <class T>
+RNode<T> *RTree<T>::internalAddToSize(RNode<T> *node, int key_to_update, int index, int addition)
+{
+    if (node == nullptr)
+        return nullptr;
+    checkBounds(index);
+    int key = node->getKey();
+    RNode<T> *search;
+    if (key_to_update == key)
+    {
+        search = node;
+        search->addToSize(index, addition);
+    }
+    else if (key_to_update > key)
+    {
+        search = internalAddToSize(node->getRight(), key_to_update, index, addition);
+    }
+    else
+    {
+        search = internalAddToSize(node->getLeft(), key_to_update, index, addition);
+    }
+    if (search != nullptr)
+        node->updateWeightAt(index);
+    return search;
+}
 
 template <class T>
 void RTree<T>::addToSize(int key_to_update, int index, int addition)
 {
     RNode<T> *node = internalSearch(root, key_to_update);
-    if (node == nullptr) return;
-    int new_size = node->getSize(index) + addition;
-    updateSize(key_to_update, index, new_size);
+    if (node == nullptr)
+        return;
+    checkBounds(index);
+    internalAddToSize(root, key_to_update, index, addition);
 }
 
 template <class T>
@@ -543,15 +582,15 @@ int RTree<T>::internalRank(RNode<T> *node, int key, int ind, int r) const
     if (node == nullptr)
         return 0;
     int curr_key = node->getKey();
-    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeight(ind);
+    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
     if (key > curr_key)
     {
-        r += left_weight + node->getSize(ind);
+        r += left_weight + node->getSizeAt(ind);
         return internalRank(node->getRight(), key, ind, r);
     }
     else if (key == curr_key)
     {
-        return r + left_weight + node->getSize(ind);
+        return r + left_weight + node->getSizeAt(ind);
     }
     else
     {
@@ -560,21 +599,16 @@ int RTree<T>::internalRank(RNode<T> *node, int key, int ind, int r) const
 }
 
 template <class T>
-int RTree<T>::RankAt(int key, int ind) const
+int RTree<T>::rankAt(int key, int ind) const
 {
+    checkBounds(ind);
     return internalRank(root, key, ind, 0);
 }
 
 template <class T>
-int RTree<T>::sumRank(int key) const
+int RTree<T>::rank(int key) const
 {
-    return RankAt(key, rank_size);
-}
-
-template <class T>
-int RTree<T>::countRank(int key) const
-{
-    return RankAt(key, rank_size + 1);
+    return internalRank(root, key, 0, 0);
 }
 
 template <class T>
@@ -582,7 +616,7 @@ RNode<T> *RTree<T>::internalSelect(RNode<T> *node, int rank, int ind) const
 {
     if (node == nullptr)
         return nullptr;
-    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeight(ind);
+    int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
     if (left_weight == rank - 1)
         return node;
     else if (left_weight > rank - 1)
@@ -591,21 +625,22 @@ RNode<T> *RTree<T>::internalSelect(RNode<T> *node, int rank, int ind) const
     }
     else
     {
-        rank -= left_weight + node->getSize(ind);
+        rank -= left_weight + node->getSizeAt(ind);
         return internalSelect(node->getRight(), rank, ind);
     }
 }
 
 template <class T>
-int RTree<T>::sumSelect(int rank) const
+int RTree<T>::selectAt(int rank, int ind) const
 {
-    return internalSelect(root, rank, rank_size)->getKey();
+    checkBounds(ind);
+    return internalSelect(root, rank, ind)->getKey();
 }
 
 template <class T>
-int RTree<T>::countSelect(int rank) const
+int RTree<T>::select(int rank) const
 {
-    return internalSelect(root, rank, rank_size + 1)->getKey();
+    return internalSelect(root, rank, 0)->getKey();
 }
 
 /*
@@ -798,10 +833,12 @@ template <class T>
 void RTree<T>::clearAll()
 {
     root = internalClear(root);
+    left_most = nullptr;
+    right_most = nullptr;
 }
 
 template <class T>
-void RTree<T>::printNodeRanks(int key) const
+void RTree<T>::printNodeRank(int key, int index) const
 {
     RNode<T> *node = internalSearch(root, key);
     if (node == nullptr)
@@ -809,39 +846,22 @@ void RTree<T>::printNodeRanks(int key) const
         cout << "Key is not in the tree" << endl;
         return;
     }
-
-    cout << "Key: " << key << ":" << endl;
-    for (int j = 0; j < rank_size + 2; j++)
-    {
-        if (j == rank_size)
-        {
-            cout << "   Sum:    ";
-        }
-        else if (j == rank_size + 1)
-        {
-            cout << "   Count:  ";
-        }
-        else
-            cout << "   ind:   " << j;
-        cout << "   , Size: " << node->getSize(j);
-        cout << "   , Weight: " << node->getWeight(j);
-        cout << "   , Rank at ind: " << RankAt(key, j);
-        cout << "   , Rank: " << countRank(key) << endl;
-    }
-    cout << endl;
+    cout << "   , Size: " << node->getSizeAt(index);
+    cout << "   , Weight[index]: " << node->getWeightAt(index);
+    cout << "   , Rank[index]: " << internalRank(root, key, index, 0) << endl;
 }
 
 //////////Available ONLY FOR TESTING!//////////
 template <class T>
-int RTree<T>::getSize(int key, int ind) const
+int RTree<T>::getSizeAt(int key, int ind) const
 {
-    return internalSearch(root, key)->getSize(ind);
+    return internalSearch(root, key)->getSizeAt(ind);
 }
 
 template <class T>
-int RTree<T>::getWeight(int key, int ind) const
+int RTree<T>::getWeightAt(int key, int ind) const
 {
-    return internalSearch(root, key)->getWeight(ind);
+    return internalSearch(root, key)->getWeightAt(ind);
 }
 ///////////////////////////////////////////////
 
