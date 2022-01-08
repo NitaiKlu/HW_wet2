@@ -17,7 +17,9 @@ public:
     LevelTree(int scale);
     LevelTree(const LevelTree &copy) = delete;
     ~LevelTree() = default;
-
+    RTree<Level_ptr>::const_iterator begin() const;
+    RTree<Level_ptr>::const_iterator reverseBegin() const;
+    RTree<Level_ptr>::const_iterator end() const;
     bool isEmpty() const;
     int getTreeSize() const;
     int getHighestLevel() const;
@@ -26,7 +28,8 @@ public:
     Level_ptr &insert(int key, const Level_ptr &data);
     void remove(int key);
     void clearAll();
-
+    void ArrayToTree(RNode<Level_ptr>** array, int start, int end);
+    
     //"normal rank"- size=1- rank_index=0
     int rank(int key) const;
     int select(int rank) const;

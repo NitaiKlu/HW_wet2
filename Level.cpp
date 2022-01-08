@@ -1,5 +1,10 @@
 #include "Level.h"
 
+Player_ptr Level::getPlayerAt(int index) const
+{
+    return *(players.getDataAt(index));
+}
+
 bool Level::isEmpty() const
 {
     return players.getCount() == 0;
@@ -36,7 +41,28 @@ int Level::getSizeOfLevel() const
     return players.getCount();
 }
 
+int Level::getSizeOfTable() const
+{
+    return players.getSize();
+}
+
 int Level::getLevel() const
 {
     return level;
+}
+
+void Level::addAllPlayers(Level_ptr level1, Level_ptr level2) //add all players in level1 and level2 to myself
+{
+    int level1_size = level1->getSizeOfTable();
+    int level2_size = level2->getSizeOfTable();
+    for(int i = 0; i < level1_size; i++)
+    {
+        if(level1->getPlayerAt(i)->getId() > 0) //this player actually exists and need to be transferred
+            addPlayer(level1->getPlayerAt(i));
+    }
+    for(int i = 0; i < level2_size; i++)
+    {
+        if(level2->getPlayerAt(i)->getId() > 0) //this player actually exists and need to be transferred
+            addPlayer(level2->getPlayerAt(i));
+    }
 }

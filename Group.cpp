@@ -20,19 +20,28 @@ int Group::getNumOfPlayers() const
     return num_of_players;
 }
 
+int Group::getId() const
+{
+    return id;
+}
+int Group::getScale() const
+{
+    return scale;
+}
+
 //assuming player's data is ok (score is in range, level is not negative, etc.)
 Status Group::addPlayer(Id id, Player_ptr player)
 {
-    int level = player->getLevel();
+    /**int level = player->getLevel();
     if (!levels.isExist(level)) //this level doesn't exist
     {
         levels.insert(level, make_shared<Level>());
-    }
-    // level defintely exists by now
-    Level_ptr players_of_this_level = levels.getData(level);
+    } no need to check because when adding level is always 0 **/ 
+    // getting level zero - costs o(1) since it's left_most
+    Level_ptr players_of_this_level = levels.getData(0); 
     //adding player to the level
     players_of_this_level->addPlayer(player);
-    levels.increaseScore(level, player->getScore() - 1);
+    levels.increaseScore(0, player->getScore() - 1);
     //updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
@@ -55,8 +64,8 @@ Status Group::removePlayer(Id id, Player_ptr player)
     levels.decreaseScore(level, player->getScore() - 1);
     //lowering number of players in the group
     num_of_players--;
-    // checking if the level is now empty
-    if (players_of_this_level->isEmpty())
+    // checking if the level is now empty but not level 0
+    if (players_of_this_level->isEmpty() && level != 0)
     {
         levels.remove(level);
     }
@@ -100,3 +109,22 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double * avgLevel)
     *avgLevel = product / m;
     return S_SUCCESS;
 }
+
+//creating an array out of the group tree
+void Group::GroupToArray(RNode<Level_ptr> **level_array)
+{
+    int i=0;
+    for(RTree<Level_ptr>::const_iterator it = levels.begin(); it != levels.end(); ++it)
+    {
+        level_array[i] = it.getNode(); 
+        i++;
+    }
+}
+
+void Group::ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players) //c'tor by array
+{
+    //assuming allocation of Group already happend
+    levels.ArrayToTree(level_array, 0, size - 1);
+    num_of_players = sum_of_players;
+}
+    

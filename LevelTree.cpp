@@ -44,6 +44,12 @@ void LevelTree::clearAll()
     tree.clearAll();
 }
 
+void LevelTree::ArrayToTree(RNode<Level_ptr> **array, int start, int end)
+{
+    tree.ArrayToTree(array, start, end);
+}
+    
+
 //"normal rank"- size=1- rank_index=0
 int LevelTree::rank(int key) const
 {

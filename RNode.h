@@ -32,6 +32,7 @@ public:
     const int getKey() const;
     const int getHeight() const;
     const int getBalance() const;
+    int getNumOfWeights() const;
     bool isLeaf() const;
     RNode<T> *getParent() const;
     RNode<T> *getLeft() const;
@@ -211,6 +212,12 @@ template <class T>
 const int RNode<T>::getBalance() const
 {
     return balance;
+}
+
+template <class T>
+int RNode<T>::getNumOfWeights() const
+{
+    return num_of_weights;
 }
 
 template <class T>

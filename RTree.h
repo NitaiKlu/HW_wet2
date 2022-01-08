@@ -52,22 +52,19 @@ private:
     RNode<T> *internalSelect(RNode<T> *node, int rank, int ind) const;
     RNode<T> *internalSelectFromBelow(RNode<T> *node, int upper_key, int rank) const;
     RNode<T> *internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const;
-
+    RNode<T> *internalArrayToTree(RNode<T> *parent, RNode<T> **array, int start, int end);
 public:
     RTree(int rank_size);
     RTree(const RTree<T> &copy) = delete;
     ~RTree();
-    /*
     class const_iterator;
     const_iterator begin() const;
     const_iterator reverseBegin() const;
     const_iterator end() const;
-    const_iterator search(const int key) const;
-    void ArrayToTree(T *array, int *keys, int start, int end);
+    //const_iterator search(const int key) const;
     void printTree() const;
     void printTree(const std::string &prefix, const RNode<T> *node, bool isLeft) const;
-    */
-
+    void ArrayToTree(RNode<T> **array, int start, int end);
     bool isEmpty() const;
     int getTreeSize() const;
     int getHighestLevel() const;
@@ -104,39 +101,38 @@ public:
     int getWeightAt(int key, int ind) const;
     ///////////////////////////////////////
 };
-/*
+
 //This iterator is calld const because the TNodes' keys are immutable
 template <class T>
-class Tree<T>::const_iterator
+class RTree<T>::const_iterator
 {
 private:
-    const Tree<T> *tree;
+    const RTree<T> *tree;
     RNode<T> *element;
-    const_iterator(const Tree<T> *tree, RNode<T> *element)
+    const_iterator(const RTree<T> *tree, RNode<T> *element)
         : tree(tree), element(element) {}
-    friend class Tree<T>;
-    RNode<T> *getNode() const;
+    friend class RTree<T>;
 
 public:
     const_iterator(const const_iterator &copy) = default;
     ~const_iterator() = default;
-    Tree<T>::const_iterator &operator=(const const_iterator &it) = default;
+    RTree<T>::const_iterator &operator=(const const_iterator &it) = default;
 
     T &getData() const; // allowing the user to change the DATA but not the key! - only through using iterator
     const int getKey() const;
-
+    RNode<T> *getNode() const;
     bool operator==(const const_iterator &it) const;
     bool operator!=(const const_iterator &it) const;
 
-    Tree<T>::const_iterator &operator++();
-    Tree<T>::const_iterator &operator--();
+    RTree<T>::const_iterator &operator++();
+    RTree<T>::const_iterator &operator--();
 };
 ////////////////////////IMPLEMENTATION///////////////////////
 
 //////// const_iterator ////////
 
 template <class T>
-typename Tree<T>::const_iterator &Tree<T>::const_iterator ::operator++()
+typename RTree<T>::const_iterator &RTree<T>::const_iterator ::operator++()
 {
     if (*this == tree->reverseBegin()) // no where to continue, biggest node
     {
@@ -160,7 +156,7 @@ typename Tree<T>::const_iterator &Tree<T>::const_iterator ::operator++()
 }
 
 template <class T>
-typename Tree<T>::const_iterator &Tree<T>::const_iterator ::operator--()
+typename RTree<T>::const_iterator &RTree<T>::const_iterator ::operator--()
 {
     if (*this == tree->begin())
     {
@@ -178,7 +174,7 @@ typename Tree<T>::const_iterator &Tree<T>::const_iterator ::operator--()
 }
 template <class T>
 
-bool Tree<T>::const_iterator ::operator==(const const_iterator &it) const
+bool RTree<T>::const_iterator ::operator==(const const_iterator &it) const
 {
     if (this->element == it.element)
     {
@@ -188,13 +184,13 @@ bool Tree<T>::const_iterator ::operator==(const const_iterator &it) const
 }
 
 template <class T>
-bool Tree<T>::const_iterator ::operator!=(const const_iterator &it) const
+bool RTree<T>::const_iterator ::operator!=(const const_iterator &it) const
 {
     return !(*this == it);
 }
 
 template <class T>
-T &Tree<T>::const_iterator ::getData() const
+T &RTree<T>::const_iterator ::getData() const
 {
     if (this->element == nullptr)
     {
@@ -204,7 +200,7 @@ T &Tree<T>::const_iterator ::getData() const
 }
 
 template <class T>
-const int Tree<T>::const_iterator ::getKey() const
+const int RTree<T>::const_iterator ::getKey() const
 {
     if (this->element == nullptr)
     {
@@ -215,11 +211,40 @@ const int Tree<T>::const_iterator ::getKey() const
 }
 
 template <class T>
-RNode<T> *Tree<T>::const_iterator ::getNode() const
+RNode<T> *RTree<T>::const_iterator ::getNode() const
 {
     return this->element;
 }
-*/
+
+template <class T>
+void RTree<T>::ArrayToTree(RNode<T> **array, int start, int end)
+{
+    root = internalArrayToTree(nullptr, array, start, end);
+    if (root == nullptr)
+    {
+        return;
+    }
+    left_most = root->getMin();
+    right_most = root->getMax();
+}
+
+template <class T>
+RNode<T>* RTree<T>::internalArrayToTree(RNode<T> *parent, RNode<T> **array, int start, int end)
+{
+    if (start > end)
+    {
+        return nullptr;
+    }
+    int middle = (start + end) / 2;
+    RNode<T> *curr = array[middle];
+    size++;
+    curr->setLeft(internalArrayToTree(curr, array, start, middle - 1));
+    curr->setRight(internalArrayToTree(curr, array, middle + 1, end));
+    curr->updateAllWeights();
+    return curr;
+}
+
+
 //////// Tree ////////
 template <class T>
 RTree<T>::RTree(int rank_size) : rank_size(rank_size), root(nullptr), left_most(nullptr), right_most(nullptr), size(0) {}
@@ -520,6 +545,10 @@ bool RTree<T>::isExist(int key_to_find) const
 template <class T>
 T &RTree<T>::getData(int key_to_find) const
 {
+    if(key_to_find == left_most->getKey())
+    {
+        return left_most->getData();
+    }
     return search(key_to_find)->getData();
 }
 

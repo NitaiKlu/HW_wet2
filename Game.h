@@ -30,8 +30,14 @@ private:
     Group levels;  // all of the players form a group = key-level (int), data-Level(tree of players (id) in this level)
     UnionFind<Group_ptr> groups;
     bool isInRange(int range, int number) const; //returns true if 0 < number <= range
+    void internalMergeGroups(Group_ptr group1, Group_ptr group2);
+    void MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *level2, RNode<Level_ptr> *result); // merging 2 Levels into a large arranged by id Level
+    void MergePlayersOfSameLevel(Player_ptr *level1, Player_ptr *level2, int size1, int size2, Player_ptr *result); // merging arrays created in LevelToArray into a large arranged array
+    int MergeGroupArrays(RNode<Level_ptr> **group1, RNode<Level_ptr> **group2, int size1, int size2, RNode<Level_ptr> **result);
+    void UpdateGroup(Level_ptr *level_array, int size, int new_group); 
+
 public:
-    Game(int k, int scale): num_of_groups(k), scale(scale), players(), levels(0, scale), groups(k) {} ;
+    Game(int k, int scale): num_of_groups(k), scale(scale), players(DOES_NOT_EXIST), levels(0, scale), groups(k) {} ;
     ~Game() = default;
 
     // functions from Library1:

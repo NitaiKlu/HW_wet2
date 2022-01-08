@@ -59,6 +59,8 @@ public:
     bool isExist(int key) const;
     T &find(int key) const;
     void printHashTable() const;
+    int getSize() const;
+    T* getDataAt(int index) const;
 };
 
 /******************************
@@ -324,6 +326,18 @@ void HashTable<T>::printHashTable() const
             cout << "key: " << items[i]->key << ", data: " << items[i]->data << endl;
         }
     }
+}
+
+template <class T>
+int HashTable<T>::getSize() const
+{
+    return size;
+}
+
+template <class T>
+T* HashTable<T>::getDataAt(int index) const
+{
+    return items[index];
 }
 
 #endif //HASH_H_
