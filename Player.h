@@ -17,7 +17,7 @@ private:
     int score;
 
 public:
-    Player(int id, int level, int group) : id(id), level(level), group(group), score(score) {}
+    Player(int id, int level, int group, int score) : id(id), level(level), group(group), score(score) {}
     Player(const Player &copy) = default;
     ~Player() = default;
     int getId() const;

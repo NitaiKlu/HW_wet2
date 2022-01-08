@@ -64,6 +64,10 @@ void LevelTree::ArrayToTree(RNode<Level_ptr> **array, int start, int end)
     
 
 //"normal rank"- size=1- rank_index=0
+int LevelTree::getWeight(int key) const
+{
+    return tree.getWeight(0);
+}
 int LevelTree::rank(int key) const
 {
     return tree.rank(key);
@@ -84,6 +88,14 @@ int LevelTree::selectFromAbove(int lower_key, int rank) const
 */
 
 //"sum rank"- size=sum{sizes}- rank_index=scale+1
+int LevelTree::getSumSize(int key) const
+{
+    return tree.getSizeAt(key, scale +1);
+}
+int LevelTree::getSumWeight(int key) const
+{
+    return tree.getWeightAt(key, scale +1);
+}
 int LevelTree::sumRank(int key) const
 {
     return tree.rankAt(key, scale + 1);
@@ -105,6 +117,14 @@ int LevelTree::sumSelectFromAbove(int rank) const
 
 
 //"product rank"- size=sum*level- rank_index=scale+2
+int LevelTree::getProdSize(int key) const
+{
+    return tree.getSizeAt(key, scale +2);
+}
+int LevelTree::getProdWeight(int key) const
+{
+    return tree.getWeightAt(key, scale +2);
+}
 int LevelTree::prodRank(int key) const
 {
     return tree.rankAt(key, scale + 2);
@@ -125,6 +145,16 @@ int LevelTree::prodSelectFromAbove(int lower_key, int rank) const
 */
 
 //"score(ind) rank"- 0<score<=scale- rank_index=ind
+int LevelTree::getSizeAt(int key, int score) const
+{
+    checkBounds(score);
+    return tree.getSizeAt(key, score);
+}
+int LevelTree::getWeightAt(int key, int score) const
+{
+    checkBounds(score);
+    return tree.getWeightAt(key, score);
+}
 int LevelTree::rankAtScore(int key, int score) const
 {
     checkBounds(score);
@@ -173,13 +203,3 @@ void LevelTree::printNodeRanks(int key) const
     }
 }
 
-//////Available ONLY FOR TESTING!//////
-int LevelTree::getSizeAt(int key, int ind) const
-{
-    return tree.getSizeAt(key, ind);
-}
-int LevelTree::getWeightAt(int key, int ind) const
-{
-    return tree.getWeightAt(key, ind);
-}
-///////////////////////////////////////

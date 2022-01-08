@@ -31,24 +31,31 @@ public:
     void ArrayToTree(RNode<Level_ptr>** array, int start, int end);
     
     //"normal rank"- size=1- rank_index=0
+    int getWeight(int key) const;
     int rank(int key) const;
     int select(int rank) const;
     //int selectFromBelow(int upper_key, int rank) const;
     int selectFromAbove(int lower_key, int rank) const;
 
     //"sum rank"- size=sum{sizes}- rank_index=scale
+    int getSumSize(int key) const;
+    int getSumWeight(int key) const;
     int sumRank(int key) const;
     int sumSelect(int rank) const;
     //int sumSelectFromBelow(int upper_key, int rank) const;
     int sumSelectFromAbove(int lower_key) const;
 
     //"product rank"- size=sum*level- rank_index=scale+1
+    int getProdSize(int key) const;
+    int getProdWeight(int key) const;
     int prodRank(int key) const;
     int prodSelect(int rank) const;
     //int prodSelectFromBelow(int upper_key, int rank) const;
     //int prodSelectFromAbove(int lower_key, int rank) const;
 
     //"score(ind) rank"- size=(#score=ind)- rank_index=score
+    int getSizeAt(int key, int score) const;
+    int getWeightAt(int key, int score) const;
     int rankAtScore(int key, int score) const;
 
     void increaseScore(int key_to_update, int score);
@@ -59,11 +66,6 @@ public:
     int searchFromAbove(int lower_key) const;
 
     void printNodeRanks(int key) const;
-
-    //////Available ONLY FOR TESTING!//////
-    int getSizeAt(int key, int ind) const;
-    int getWeightAt(int key, int ind) const;
-    ///////////////////////////////////////
 };
 
 #endif // LTREE_H_

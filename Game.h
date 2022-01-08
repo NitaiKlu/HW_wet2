@@ -37,7 +37,13 @@ private:
     void UpdateGroup(Level_ptr *level_array, int size, int new_group); 
 
 public:
-    Game(int k, int scale): num_of_groups(k), scale(scale), players(DOES_NOT_EXIST), levels(0, scale), groups(k) {} ;
+    Game(int k, int scale): num_of_groups(k), scale(scale), players(DOES_NOT_EXIST), levels(0, scale), groups(k) {
+        for (int i = 1; i <= k; i++)
+        {
+            Group_ptr group = make_shared<Group>(i, scale);
+            groups.MakeSet(i, group);
+        }
+    } ;
     ~Game() = default;
 
     // functions from Library1:

@@ -23,6 +23,7 @@ private:
     } typedef Node;
     Node *arr;
     int size;
+    void checkBounds(int index) const; //group i is in arr[i-1]
 
 public:
     UnionFind(int k);
@@ -55,8 +56,17 @@ UnionFind<T>::~UnionFind()
 }
 
 template <class T>
+void UnionFind<T>::checkBounds(int index) const
+{
+    if (index <= 0 || index > size)
+        throw std::out_of_range("Out of UF boundaries");
+}
+
+template <class T>
 void UnionFind<T>::MakeSet(int i, T const &data)
 {
+    checkBounds(i);
+    i--;
     arr[i].parent = i;
     arr[i].size = 1;
     arr[i].data = data;
@@ -66,6 +76,8 @@ void UnionFind<T>::MakeSet(int i, T const &data)
 template <class T>
 int UnionFind<T>::Find(int i) const
 {
+    checkBounds(i);
+    i--;
     int root = i;
     // When the element is his own parent- he is the root of the up-tree
     while (root != arr[root].parent)
@@ -81,12 +93,13 @@ int UnionFind<T>::Find(int i) const
         arr[i].parent = root;
         i = tmp_parent;
     }
-    return root;
+    return root + 1;
 }
 
 template <class T>
 T &UnionFind<T>::getData(int i) const
 {
+    checkBounds(i);
     return arr[Find(i)].data;
 }
 
@@ -141,6 +154,7 @@ void UnionFind<T>::printUnionFind() const
             cout << i << " | ";
         }
     }
-    cout << endl << endl;
+    cout << endl
+         << endl;
 }
 #endif // UF_H_

@@ -169,7 +169,7 @@ Status Game::AddPlayer(int PlayerID, int GroupID, int score)
         // we are using T& Tree<T>::getData(int key_to_find)
         // only when we know that Tree<T>.isExist(key_to_find) is true!
         int group_current_id = groups.Find(GroupID); //o(log*k)
-        Player_ptr player = make_shared<Player>(PlayerID, 0, group_current_id);
+        Player_ptr player = make_shared<Player>(PlayerID, 0, group_current_id, score);
 
         // Adding to players (table) o(1)
         players.addPlayer(player);
@@ -232,10 +232,10 @@ Status Game::increasePlayerIDLevel(int PlayerID, int LevelIncrease)
         // removing the player from groups and levels
         groups.getData(group_id)->removePlayer(PlayerID, player);
         levels.removePlayer(PlayerID, player);
-
+        
         // updating player's info
         player->setLevel(level + LevelIncrease);
-
+        
         // re-inserting the player
         groups.getData(group_id)->addPlayer(PlayerID, player);
         levels.addPlayer(PlayerID, player);
@@ -250,7 +250,7 @@ Status Game::increasePlayerIDLevel(int PlayerID, int LevelIncrease)
 
 Status Game::changePlayerIDScore(int PlayerID, int NewScore)
 {
-    if (PlayerID <= 0 || isInRange(scale, NewScore))
+    if (PlayerID <= 0 || !isInRange(scale, NewScore))
     {
         return S_INVALID_INPUT;
     }
@@ -285,10 +285,6 @@ Status Game::changePlayerIDScore(int PlayerID, int NewScore)
 
 Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lowerLevel, int higherLevel, double *players)
 {
-    if (!isInRange(num_of_groups, GroupID)) //group is illegal
-    {
-        return S_INVALID_INPUT;
-    }
     Group_ptr group;
     if (GroupID != 0) //a specific group and not the entire game
     {

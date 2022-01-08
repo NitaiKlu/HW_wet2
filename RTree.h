@@ -55,6 +55,8 @@ private:
     RNode<T> *internalArrayToTree(RNode<T> *parent, RNode<T> **array, int start, int end);
     RNode<T> *next_bigger(RNode<T> *vertice) const;
     RNode<T> *next_smaller(RNode<T> *vertice) const;
+    void overwriteSizes(RNode<T> *target, const RNode<T> *source);
+
 public:
     RTree(int rank_size);
     RTree(const RTree<T> &copy) = delete;
@@ -78,6 +80,11 @@ public:
 
     void checkBounds(int index) const;
 
+    int getSizeAt(int key, int ind) const;
+
+    int getWeight(int key) const;
+    int getWeightAt(int key, int ind) const;
+
     int rank(int key) const;
     int rankAt(int key, int ind) const;
 
@@ -98,10 +105,6 @@ public:
 
     void printNodeRank(int key, int index) const;
 
-    //////Available ONLY FOR TESTING!//////
-    int getSizeAt(int key, int ind) const;
-    int getWeightAt(int key, int ind) const;
-    ///////////////////////////////////////
 };
 
 //This iterator is calld const because the TNodes' keys are immutable
@@ -817,7 +820,9 @@ RNode<T> *RTree<T>::internalRemove(RNode<T> *node, int key_to_remove)
             const RNode<T> *next_node = node->getRight()->getMin();
             node->setKey(next_node->getKey());
             node->setData(next_node->getDataConst());
+            overwriteSizes(node, next_node);
             node->setRight(internalRemove(node->getRight(), next_node->getKey()));
+            node->updateAllWeights();
         }
         else
         {
@@ -858,6 +863,15 @@ RNode<T> *RTree<T>::internalRemove(RNode<T> *node, int key_to_remove)
         node->setLeft(new_left);
     }
     return rotate(node);
+}
+
+template <class T>
+void RTree<T>::overwriteSizes(RNode<T> *target, const RNode<T> *source)
+{
+    for (int i = 1; i <= rank_size; i++)
+    {
+        target->addToSize(i, source->getSizeAt(i) - target->getSizeAt(i));
+    }
 }
 
 template <class T>
@@ -965,13 +979,21 @@ void RTree<T>::printNodeRank(int key, int index) const
 template <class T>
 int RTree<T>::getSizeAt(int key, int ind) const
 {
+    checkBounds(ind);
     return internalSearch(root, key)->getSizeAt(ind);
 }
+
 
 template <class T>
 int RTree<T>::getWeightAt(int key, int ind) const
 {
+    checkBounds(ind);
     return internalSearch(root, key)->getWeightAt(ind);
+}
+template <class T>
+int RTree<T>::getWeight(int key) const
+{
+    return internalSearch(root, key)->getWeightAt(0);
 }
 ///////////////////////////////////////////////
 
