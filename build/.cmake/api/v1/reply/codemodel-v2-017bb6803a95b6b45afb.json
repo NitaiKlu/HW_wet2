@@ -290,7 +290,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "wet2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-wet2-Debug-8966a16eeaada35aa9f6.json",
+					"jsonFile" : "target-wet2-Debug-2c950afcde1e4d1bcbd1.json",
 					"name" : "wet2",
 					"projectIndex" : 0
 				}
@@ -300,8 +300,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/build",
-		"source" : "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2"
+		"build" : "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+		"source" : "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2"
 	},
 	"version" : 
 	{

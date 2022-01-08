@@ -156,7 +156,7 @@ Status Game::MergeGroups(int GroupID1, int GroupID2)
 
 Status Game::AddPlayer(int PlayerID, int GroupID, int score)
 {
-    if (!isInRange(num_of_groups, GroupID) || PlayerID <= 0) // player exists already or group doesn't
+    if (!isInRange(num_of_groups, GroupID) || PlayerID <= 0 || score > scale) // player exists already or group doesn't
     {
         return S_INVALID_INPUT;
     }

@@ -13,6 +13,13 @@
         "utility": "cpp",
         "type_traits": "cpp",
         "system_error": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "cstdlib": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "exception": "cpp",
+        "memory": "cpp",
+        "typeinfo": "cpp",
+        "xmemory": "cpp"
     }
 }

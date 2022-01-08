@@ -1,12 +1,32 @@
 [
 {
-  "directory": "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/build",
-  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE   -g -o CMakeFiles\\wet2.dir\\LevelTreeTest.cpp.obj -c C:\\Users\\Harel\\Documents\\Studies\\SemesterC\\DataStructurs\\HW\\wet\\w2\\HW_wet2\\LevelTreeTest.cpp",
-  "file": "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/LevelTreeTest.cpp"
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\Game.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\Game.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/Game.cpp"
 },
 {
-  "directory": "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/build",
-  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE   -g -o CMakeFiles\\wet2.dir\\LevelTree.cpp.obj -c C:\\Users\\Harel\\Documents\\Studies\\SemesterC\\DataStructurs\\HW\\wet\\w2\\HW_wet2\\LevelTree.cpp",
-  "file": "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/LevelTree.cpp"
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\Group.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\Group.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/Group.cpp"
+},
+{
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\Level.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\Level.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/Level.cpp"
+},
+{
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\LevelTree.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\LevelTree.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/LevelTree.cpp"
+},
+{
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\Player.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\Player.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/Player.cpp"
+},
+{
+  "directory": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\wet2.dir\\main2.cpp.obj -c \"C:\\Users\\nitai\\Documents\\Technion\\Semester3\\Data Structures\\HW_wet2\\HW_wet2\\main2.cpp\"",
+  "file": "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/main2.cpp"
 }
 ]

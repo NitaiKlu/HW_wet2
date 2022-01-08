@@ -10,6 +10,7 @@ Group.cpp
 Level.cpp
 LevelTree.cpp
 Player.cpp
+main2.cpp
 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

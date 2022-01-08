@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2
+CMAKE_SOURCE_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build
+CMAKE_BINARY_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\w
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	"C:\Program Files\CMake\bin\cpack.exe" --config ./CPackSourceConfig.cmake C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/build/CPackSourceConfig.cmake
+	"C:\Program Files\CMake\bin\cpack.exe" --config ./CPackSourceConfig.cmake "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build/CPackSourceConfig.cmake"
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -116,9 +116,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\\CMakeFiles\progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -522,6 +522,78 @@ wet2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/build
 .PHONY : wet2/fast
 
+Game.obj: Game.cpp.obj
+.PHONY : Game.obj
+
+# target to build an object file
+Game.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Game.cpp.obj
+.PHONY : Game.cpp.obj
+
+Game.i: Game.cpp.i
+.PHONY : Game.i
+
+# target to preprocess a source file
+Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Game.cpp.i
+.PHONY : Game.cpp.i
+
+Game.s: Game.cpp.s
+.PHONY : Game.s
+
+# target to generate assembly for a file
+Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Game.cpp.s
+.PHONY : Game.cpp.s
+
+Group.obj: Group.cpp.obj
+.PHONY : Group.obj
+
+# target to build an object file
+Group.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Group.cpp.obj
+.PHONY : Group.cpp.obj
+
+Group.i: Group.cpp.i
+.PHONY : Group.i
+
+# target to preprocess a source file
+Group.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Group.cpp.i
+.PHONY : Group.cpp.i
+
+Group.s: Group.cpp.s
+.PHONY : Group.s
+
+# target to generate assembly for a file
+Group.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Group.cpp.s
+.PHONY : Group.cpp.s
+
+Level.obj: Level.cpp.obj
+.PHONY : Level.obj
+
+# target to build an object file
+Level.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Level.cpp.obj
+.PHONY : Level.cpp.obj
+
+Level.i: Level.cpp.i
+.PHONY : Level.i
+
+# target to preprocess a source file
+Level.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Level.cpp.i
+.PHONY : Level.cpp.i
+
+Level.s: Level.cpp.s
+.PHONY : Level.s
+
+# target to generate assembly for a file
+Level.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Level.cpp.s
+.PHONY : Level.cpp.s
+
 LevelTree.obj: LevelTree.cpp.obj
 .PHONY : LevelTree.obj
 
@@ -546,29 +618,53 @@ LevelTree.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/LevelTree.cpp.s
 .PHONY : LevelTree.cpp.s
 
-LevelTreeTest.obj: LevelTreeTest.cpp.obj
-.PHONY : LevelTreeTest.obj
+Player.obj: Player.cpp.obj
+.PHONY : Player.obj
 
 # target to build an object file
-LevelTreeTest.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj
-.PHONY : LevelTreeTest.cpp.obj
+Player.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Player.cpp.obj
+.PHONY : Player.cpp.obj
 
-LevelTreeTest.i: LevelTreeTest.cpp.i
-.PHONY : LevelTreeTest.i
+Player.i: Player.cpp.i
+.PHONY : Player.i
 
 # target to preprocess a source file
-LevelTreeTest.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/LevelTreeTest.cpp.i
-.PHONY : LevelTreeTest.cpp.i
+Player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Player.cpp.i
+.PHONY : Player.cpp.i
 
-LevelTreeTest.s: LevelTreeTest.cpp.s
-.PHONY : LevelTreeTest.s
+Player.s: Player.cpp.s
+.PHONY : Player.s
 
 # target to generate assembly for a file
-LevelTreeTest.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/LevelTreeTest.cpp.s
-.PHONY : LevelTreeTest.cpp.s
+Player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/Player.cpp.s
+.PHONY : Player.cpp.s
+
+main2.obj: main2.cpp.obj
+.PHONY : main2.obj
+
+# target to build an object file
+main2.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/main2.cpp.obj
+.PHONY : main2.cpp.obj
+
+main2.i: main2.cpp.i
+.PHONY : main2.i
+
+# target to preprocess a source file
+main2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/main2.cpp.i
+.PHONY : main2.cpp.i
+
+main2.s: main2.cpp.s
+.PHONY : main2.s
+
+# target to generate assembly for a file
+main2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\wet2.dir\build.make CMakeFiles/wet2.dir/main2.cpp.s
+.PHONY : main2.cpp.s
 
 # Help Target
 help:
@@ -610,12 +706,24 @@ help:
 	@echo ... NightlyTest
 	@echo ... NightlyUpdate
 	@echo ... wet2
+	@echo ... Game.obj
+	@echo ... Game.i
+	@echo ... Game.s
+	@echo ... Group.obj
+	@echo ... Group.i
+	@echo ... Group.s
+	@echo ... Level.obj
+	@echo ... Level.i
+	@echo ... Level.s
 	@echo ... LevelTree.obj
 	@echo ... LevelTree.i
 	@echo ... LevelTree.s
-	@echo ... LevelTreeTest.obj
-	@echo ... LevelTreeTest.i
-	@echo ... LevelTreeTest.s
+	@echo ... Player.obj
+	@echo ... Player.i
+	@echo ... Player.s
+	@echo ... main2.obj
+	@echo ... main2.i
+	@echo ... main2.s
 .PHONY : help
 
 

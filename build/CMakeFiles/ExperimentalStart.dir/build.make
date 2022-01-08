@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2
+CMAKE_SOURCE_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build
+CMAKE_BINARY_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build"
 
 # Utility rule file for ExperimentalStart.
 
@@ -81,6 +81,6 @@ CMakeFiles/ExperimentalStart.dir/clean:
 .PHONY : CMakeFiles/ExperimentalStart.dir/clean
 
 CMakeFiles/ExperimentalStart.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2 C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2 C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles\ExperimentalStart.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles\ExperimentalStart.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/ExperimentalStart.dir/depend
 

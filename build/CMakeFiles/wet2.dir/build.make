@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2
+CMAKE_SOURCE_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build
+CMAKE_BINARY_DIR = "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/wet2.dir/depend.make
@@ -68,49 +68,113 @@ include CMakeFiles/wet2.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/wet2.dir/flags.make
 
-CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj: CMakeFiles/wet2.dir/flags.make
-CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj: ../LevelTreeTest.cpp
-CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj -MF CMakeFiles\wet2.dir\LevelTreeTest.cpp.obj.d -o CMakeFiles\wet2.dir\LevelTreeTest.cpp.obj -c C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTreeTest.cpp
+CMakeFiles/wet2.dir/Game.cpp.obj: CMakeFiles/wet2.dir/flags.make
+CMakeFiles/wet2.dir/Game.cpp.obj: ../Game.cpp
+CMakeFiles/wet2.dir/Game.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wet2.dir/Game.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/Game.cpp.obj -MF CMakeFiles\wet2.dir\Game.cpp.obj.d -o CMakeFiles\wet2.dir\Game.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Game.cpp"
 
-CMakeFiles/wet2.dir/LevelTreeTest.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/LevelTreeTest.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTreeTest.cpp > CMakeFiles\wet2.dir\LevelTreeTest.cpp.i
+CMakeFiles/wet2.dir/Game.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Game.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Game.cpp" > CMakeFiles\wet2.dir\Game.cpp.i
 
-CMakeFiles/wet2.dir/LevelTreeTest.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/LevelTreeTest.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTreeTest.cpp -o CMakeFiles\wet2.dir\LevelTreeTest.cpp.s
+CMakeFiles/wet2.dir/Game.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Game.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Game.cpp" -o CMakeFiles\wet2.dir\Game.cpp.s
+
+CMakeFiles/wet2.dir/Group.cpp.obj: CMakeFiles/wet2.dir/flags.make
+CMakeFiles/wet2.dir/Group.cpp.obj: ../Group.cpp
+CMakeFiles/wet2.dir/Group.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wet2.dir/Group.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/Group.cpp.obj -MF CMakeFiles\wet2.dir\Group.cpp.obj.d -o CMakeFiles\wet2.dir\Group.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Group.cpp"
+
+CMakeFiles/wet2.dir/Group.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Group.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Group.cpp" > CMakeFiles\wet2.dir\Group.cpp.i
+
+CMakeFiles/wet2.dir/Group.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Group.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Group.cpp" -o CMakeFiles\wet2.dir\Group.cpp.s
+
+CMakeFiles/wet2.dir/Level.cpp.obj: CMakeFiles/wet2.dir/flags.make
+CMakeFiles/wet2.dir/Level.cpp.obj: ../Level.cpp
+CMakeFiles/wet2.dir/Level.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/wet2.dir/Level.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/Level.cpp.obj -MF CMakeFiles\wet2.dir\Level.cpp.obj.d -o CMakeFiles\wet2.dir\Level.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Level.cpp"
+
+CMakeFiles/wet2.dir/Level.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Level.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Level.cpp" > CMakeFiles\wet2.dir\Level.cpp.i
+
+CMakeFiles/wet2.dir/Level.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Level.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Level.cpp" -o CMakeFiles\wet2.dir\Level.cpp.s
 
 CMakeFiles/wet2.dir/LevelTree.cpp.obj: CMakeFiles/wet2.dir/flags.make
 CMakeFiles/wet2.dir/LevelTree.cpp.obj: ../LevelTree.cpp
 CMakeFiles/wet2.dir/LevelTree.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wet2.dir/LevelTree.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/LevelTree.cpp.obj -MF CMakeFiles\wet2.dir\LevelTree.cpp.obj.d -o CMakeFiles\wet2.dir\LevelTree.cpp.obj -c C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTree.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/wet2.dir/LevelTree.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/LevelTree.cpp.obj -MF CMakeFiles\wet2.dir\LevelTree.cpp.obj.d -o CMakeFiles\wet2.dir\LevelTree.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\LevelTree.cpp"
 
 CMakeFiles/wet2.dir/LevelTree.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/LevelTree.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTree.cpp > CMakeFiles\wet2.dir\LevelTree.cpp.i
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\LevelTree.cpp" > CMakeFiles\wet2.dir\LevelTree.cpp.i
 
 CMakeFiles/wet2.dir/LevelTree.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/LevelTree.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\LevelTree.cpp -o CMakeFiles\wet2.dir\LevelTree.cpp.s
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\LevelTree.cpp" -o CMakeFiles\wet2.dir\LevelTree.cpp.s
+
+CMakeFiles/wet2.dir/Player.cpp.obj: CMakeFiles/wet2.dir/flags.make
+CMakeFiles/wet2.dir/Player.cpp.obj: ../Player.cpp
+CMakeFiles/wet2.dir/Player.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/wet2.dir/Player.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/Player.cpp.obj -MF CMakeFiles\wet2.dir\Player.cpp.obj.d -o CMakeFiles\wet2.dir\Player.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Player.cpp"
+
+CMakeFiles/wet2.dir/Player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Player.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Player.cpp" > CMakeFiles\wet2.dir\Player.cpp.i
+
+CMakeFiles/wet2.dir/Player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Player.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\Player.cpp" -o CMakeFiles\wet2.dir\Player.cpp.s
+
+CMakeFiles/wet2.dir/main2.cpp.obj: CMakeFiles/wet2.dir/flags.make
+CMakeFiles/wet2.dir/main2.cpp.obj: ../main2.cpp
+CMakeFiles/wet2.dir/main2.cpp.obj: CMakeFiles/wet2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/wet2.dir/main2.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wet2.dir/main2.cpp.obj -MF CMakeFiles\wet2.dir\main2.cpp.obj.d -o CMakeFiles\wet2.dir\main2.cpp.obj -c "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\main2.cpp"
+
+CMakeFiles/wet2.dir/main2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/main2.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\main2.cpp" > CMakeFiles\wet2.dir\main2.cpp.i
+
+CMakeFiles/wet2.dir/main2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/main2.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\main2.cpp" -o CMakeFiles\wet2.dir\main2.cpp.s
 
 # Object files for target wet2
 wet2_OBJECTS = \
-"CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj" \
-"CMakeFiles/wet2.dir/LevelTree.cpp.obj"
+"CMakeFiles/wet2.dir/Game.cpp.obj" \
+"CMakeFiles/wet2.dir/Group.cpp.obj" \
+"CMakeFiles/wet2.dir/Level.cpp.obj" \
+"CMakeFiles/wet2.dir/LevelTree.cpp.obj" \
+"CMakeFiles/wet2.dir/Player.cpp.obj" \
+"CMakeFiles/wet2.dir/main2.cpp.obj"
 
 # External object files for target wet2
 wet2_EXTERNAL_OBJECTS =
 
-wet2.exe: CMakeFiles/wet2.dir/LevelTreeTest.cpp.obj
+wet2.exe: CMakeFiles/wet2.dir/Game.cpp.obj
+wet2.exe: CMakeFiles/wet2.dir/Group.cpp.obj
+wet2.exe: CMakeFiles/wet2.dir/Level.cpp.obj
 wet2.exe: CMakeFiles/wet2.dir/LevelTree.cpp.obj
+wet2.exe: CMakeFiles/wet2.dir/Player.cpp.obj
+wet2.exe: CMakeFiles/wet2.dir/main2.cpp.obj
 wet2.exe: CMakeFiles/wet2.dir/build.make
 wet2.exe: CMakeFiles/wet2.dir/linklibs.rsp
 wet2.exe: CMakeFiles/wet2.dir/objects1.rsp
 wet2.exe: CMakeFiles/wet2.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable wet2.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable wet2.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\wet2.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -122,6 +186,6 @@ CMakeFiles/wet2.dir/clean:
 .PHONY : CMakeFiles/wet2.dir/clean
 
 CMakeFiles/wet2.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2 C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2 C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build C:\Users\Harel\Documents\Studies\SemesterC\DataStructurs\HW\wet\w2\HW_wet2\build\CMakeFiles\wet2.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build" "C:\Users\nitai\Documents\Technion\Semester3\Data Structures\HW_wet2\HW_wet2\build\CMakeFiles\wet2.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/wet2.dir/depend
 

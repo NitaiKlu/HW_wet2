@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2
-BuildDirectory: C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2/build
+SourceDirectory: C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2
+BuildDirectory: C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: lth80031529
+Site: LAPTOP-MJU8VU2I
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-mingw32-make
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files/CMake/bin/cmake.exe" "C:/Users/Harel/Documents/Studies/SemesterC/DataStructurs/HW/wet/w2/HW_wet2"
+ConfigureCommand: "C:/Program Files/CMake/bin/cmake.exe" "C:/Users/nitai/Documents/Technion/Semester3/Data Structures/HW_wet2/HW_wet2"
 MakeCommand: C:/Program\ Files/CMake/bin/cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/x86_64-w64-mingw32-g++.exe
-CompilerVersion: 8.1.0
+Compiler: C:/TDM-GCC-64/bin/x86_64-w64-mingw32-g++.exe
+CompilerVersion: 9.2.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
@@ -80,7 +80,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/gcov.exe
+CoverageCommand: C:/TDM-GCC-64/bin/gcov.exe
 CoverageExtraFlags: -l
 
 # Testing options
