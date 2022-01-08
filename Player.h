@@ -2,10 +2,11 @@
 #define PLAYER_H_
 
 #include <iostream>
-
+#include <memory>
 using std::cout;
 using std::endl;
 using std::shared_ptr;
+
 
 class Player
 {

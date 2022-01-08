@@ -53,6 +53,8 @@ private:
     RNode<T> *internalSelectFromBelow(RNode<T> *node, int upper_key, int rank) const;
     RNode<T> *internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const;
     RNode<T> *internalArrayToTree(RNode<T> *parent, RNode<T> **array, int start, int end);
+    RNode<T> *next_bigger(RNode<T> *vertice) const;
+    RNode<T> *next_smaller(RNode<T> *vertice) const;
 public:
     RTree(int rank_size);
     RTree(const RTree<T> &copy) = delete;
@@ -216,6 +218,24 @@ RNode<T> *RTree<T>::const_iterator ::getNode() const
     return this->element;
 }
 
+//////// Tree ////////
+template <class T>
+typename RTree<T>::const_iterator RTree<T>::begin() const
+{
+    return RTree<T>::const_iterator(this, left_most);
+}
+template <class T>
+typename RTree<T>::const_iterator RTree<T>::reverseBegin() const
+{
+    return RTree<T>::const_iterator(this, right_most);
+}
+template <class T>
+typename RTree<T>::const_iterator RTree<T>::end() const
+{
+    return RTree<T>::const_iterator(this, nullptr);
+}
+
+
 template <class T>
 void RTree<T>::ArrayToTree(RNode<T> **array, int start, int end)
 {
@@ -244,8 +264,29 @@ RNode<T>* RTree<T>::internalArrayToTree(RNode<T> *parent, RNode<T> **array, int 
     return curr;
 }
 
+template <class T>
+RNode<T> *RTree<T>::next_bigger(RNode<T> *vertice) const
+{
+    RNode<T> *parent = vertice->getParent();
+    if (parent->getLeft() == vertice)
+    { // vertice is smaller than his parent
+        return parent;
+    }
+    return next_bigger(parent);
+}
 
-//////// Tree ////////
+template <class T>
+RNode<T> *RTree<T>::next_smaller(RNode<T> *vertice) const
+{
+    RNode<T> *parent = vertice->getParent();
+    if (parent->getRight() == vertice)
+    { // vertice is bigger than his parent
+        return parent;
+    }
+    return next_smaller(parent);
+}
+
+
 template <class T>
 RTree<T>::RTree(int rank_size) : rank_size(rank_size), root(nullptr), left_most(nullptr), right_most(nullptr), size(0) {}
 

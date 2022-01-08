@@ -4,7 +4,13 @@ project(wet2 VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(wet2 LevelTreeTest.cpp LevelTree.cpp)
+add_executable(wet2 
+Game.cpp
+Group.cpp
+Level.cpp
+LevelTree.cpp
+Player.cpp
+)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

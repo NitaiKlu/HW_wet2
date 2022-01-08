@@ -41,7 +41,7 @@ Status Group::addPlayer(Id id, Player_ptr player)
     Level_ptr players_of_this_level = levels.getData(0); 
     //adding player to the level
     players_of_this_level->addPlayer(player);
-    levels.increaseScore(0, player->getScore() - 1);
+    levels.increaseScore(0, player->getScore());
     //updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
@@ -79,9 +79,9 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
     int low_level = levels.searchFromAbove(lowerLevel);
     int high_level = levels.searchFromBelow(higherLevel);
     //getting the score-ish rank of both levels
-    int score_low_rank = levels.rankAtScore(low_level, score - 1);
-    int score_high_rank = levels.rankAtScore(high_level, score - 1);
-    int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(lowerLevel, score - 1);
+    int score_low_rank = levels.rankAtScore(low_level, score);
+    int score_high_rank = levels.rankAtScore(high_level, score);
+    int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(lowerLevel, score);
     if(num_of_players_mentioned == 0 || num_of_players == 0) //no players fits the purpose..
     {
         return S_FAILURE;

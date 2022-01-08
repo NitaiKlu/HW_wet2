@@ -60,7 +60,7 @@ public:
     T &find(int key) const;
     void printHashTable() const;
     int getSize() const;
-    T* getDataAt(int index) const;
+    T& getDataAt(int index) const;
 };
 
 /******************************
@@ -335,9 +335,9 @@ int HashTable<T>::getSize() const
 }
 
 template <class T>
-T* HashTable<T>::getDataAt(int index) const
+T& HashTable<T>::getDataAt(int index) const
 {
-    return items[index];
+    return items[index]->data;
 }
 
 #endif //HASH_H_

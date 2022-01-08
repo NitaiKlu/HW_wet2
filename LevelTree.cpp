@@ -9,6 +9,19 @@ void LevelTree::checkBounds(int score) const
         throw std::out_of_range("Out of scale");
 }
 
+RTree<Level_ptr>::const_iterator LevelTree::begin() const
+{
+    return tree.begin();
+}
+RTree<Level_ptr>::const_iterator LevelTree::reverseBegin() const
+{
+    return tree.reverseBegin();
+}
+RTree<Level_ptr>::const_iterator LevelTree::end() const
+{
+    return tree.end();
+}
+
 bool LevelTree::isEmpty() const
 {
     return tree.isEmpty();

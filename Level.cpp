@@ -2,7 +2,7 @@
 
 Player_ptr Level::getPlayerAt(int index) const
 {
-    return *(players.getDataAt(index));
+    return players.getDataAt(index);
 }
 
 bool Level::isEmpty() const
