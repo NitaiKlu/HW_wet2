@@ -10,6 +10,7 @@ Group.cpp
 Level.cpp
 LevelTree.cpp
 Player.cpp
+library2.cpp
 main2.cpp
 )
 

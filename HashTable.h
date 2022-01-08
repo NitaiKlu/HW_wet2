@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-using namespace std;
+
 using std::cout;
 using std::endl;
 using std::make_shared;
