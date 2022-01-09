@@ -318,6 +318,8 @@ Status Game::changePlayerIDScore(int PlayerID, int NewScore)
 Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lowerLevel, int higherLevel, double *players)
 {
     Group_ptr group;
+    if(GroupID > num_of_groups)
+        return S_INVALID_INPUT;
     if (GroupID != 0) // a specific group and not the entire game
     {
         group = groups.getData(GroupID);
@@ -331,7 +333,7 @@ Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lo
 
 Status Game::averageHighestPlayerLevelByGroup(int GroupID, int m, double *avgLevel)
 {
-    if (!isInRange(num_of_groups, GroupID) || m <= 0) // group or m are illegal
+    if (GroupID > num_of_groups || m <= 0) // group or m are illegal
     {
         return S_INVALID_INPUT;
     }

@@ -743,10 +743,10 @@ int RTree<T>::selectFromAboveAt(int rank, int ind) const
 template <class T>
 RNode<T>* RTree<T>::internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const
 {
-    if (node == nullptr)
-        return nullptr;
     if(rank < 0)
         return keeper;
+    if (node == nullptr)
+        return nullptr;
     int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
     if (left_weight == rank - 1)
         return node;
