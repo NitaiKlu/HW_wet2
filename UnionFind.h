@@ -33,6 +33,7 @@ public:
     void MakeSet(int i, T const &data);
     int Find(int i) const;
     T &getData(int i) const;
+    void setData(T const &data);
     void Union(int p, int q);
 
     void printUnionFind() const;
@@ -101,6 +102,12 @@ T &UnionFind<T>::getData(int i) const
 {
     checkBounds(i);
     return arr[Find(i)].data;
+}
+
+template <class T>
+void UnionFind<T>::setData(T const &data)
+{
+    arr[i].data = data;
 }
 
 template <class T>
