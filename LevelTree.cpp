@@ -112,7 +112,7 @@ int LevelTree::sumSelectFromAbove(int upper_key, int rank) const
 
 int LevelTree::sumSelectFromAbove(int rank) const
 {
-    return tree.selectFromAboveAt(rank, scale);
+    return tree.selectFromAboveAt(rank, scale + 1);
 }
 
 

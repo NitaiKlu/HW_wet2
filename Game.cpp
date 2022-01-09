@@ -5,7 +5,7 @@ bool Game::isInRange(int range, int number) const
     return number >= 1 && number <= range;
 }
 
-//merging level1 and level 2 to result
+// merging level1 and level 2 to result
 void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *level2, RNode<Level_ptr> *result, Level_ptr result_level) // merging 2 Levels into a large arranged by id Level
 {
     /**merge level nodes in 2 tasks:
@@ -13,13 +13,13 @@ void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *le
      * 2. merge the sizes array of each node
      * note: no need to update weights - this will happen afterwards when creating a tree
      * */
-    //task 1:
+    // task 1:
     result_level->addAllPlayers(level1->getData(), level2->getData());
-    //task 2:
-    //should I begin from i = 0 ? and until where? what weight is this
-    for (int i = 0; i < level1->getNumOfWeights() + 2; i++)
+    // task 2:
+    // should I begin from i = 0 ? and until where? what weight is this
+    for (int i = 1; i <= level1->getNumOfWeights(); i++)
     {
-        result->addToSize(i, level2->getSizeAt(i) + level2->getSizeAt(i));
+        result->addToSize(i, level1->getSizeAt(i) + level2->getSizeAt(i));
     }
 }
 
@@ -46,7 +46,7 @@ int Game::MergeGroupArrays(RNode<Level_ptr> **group1, RNode<Level_ptr> **group2,
 
         else if (curr_level1 > curr_level2)
         {
-            RNode<Level_ptr> *to_replace = group1[i2];
+            RNode<Level_ptr> *to_replace = group2[i2];
             RNode<Level_ptr> *curr = new RNode<Level_ptr>(to_replace->getNumOfWeights(), to_replace->getKey(), to_replace->getData());
             for (int i = 1; i <= to_replace->getNumOfWeights(); i++)
             {
@@ -70,24 +70,36 @@ int Game::MergeGroupArrays(RNode<Level_ptr> **group1, RNode<Level_ptr> **group2,
     // one of these while is not entered during runtime
     while (i1 < size1)
     {
-        result[res] = group1[i1];
+        RNode<Level_ptr> *to_replace = group1[i1];
+        RNode<Level_ptr> *curr = new RNode<Level_ptr>(to_replace->getNumOfWeights(), to_replace->getKey(), to_replace->getData());
+        for (int i = 1; i <= to_replace->getNumOfWeights(); i++)
+        {
+            curr->addToSize(i, to_replace->getSizeAt(i));
+        }
+        result[res] = curr;
         i1++;
         res++;
     }
 
     while (i2 < size2)
     {
-        result[res] = group2[i2];
+        RNode<Level_ptr> *to_replace = group2[i2];
+        RNode<Level_ptr> *curr = new RNode<Level_ptr>(to_replace->getNumOfWeights(), to_replace->getKey(), to_replace->getData());
+        for (int i = 1; i <= to_replace->getNumOfWeights(); i++)
+        {
+            curr->addToSize(i, to_replace->getSizeAt(i));
+        }
+        result[res] = curr;
         i2++;
         res++;
     }
-    return res - 1;
+    return res;
 }
 
 Group_ptr Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
 {
     Group_ptr bigger_group, smaller_group;
-    //deciding who's bigger
+    // deciding who's bigger
     if (group1->getNumOfPlayers() > group2->getNumOfPlayers())
     {
         bigger_group = group1;
@@ -99,14 +111,14 @@ Group_ptr Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
         smaller_group = group1;
     }
     Group_ptr new_group = make_shared<Group>(bigger_group->getId(), smaller_group->getScale());
-    int bigger_size_of_group = bigger_group->getNumOfPlayers();
-    int smaller_size_of_group = smaller_group->getNumOfPlayers();
+    int bigger_size_of_group = bigger_group->getNumOfLevels();
+    int smaller_size_of_group = smaller_group->getNumOfLevels();
     int result_size = bigger_size_of_group + smaller_size_of_group; // the real result size might be smaller!
-    //as we know - each player could be in only one group
+    // as we know - each player could be in only one group
     int sum_of_players = bigger_group->getNumOfPlayers() + smaller_group->getNumOfPlayers();
 
     // creating arrays of Level_ptr o(n + m)
-    RNode<Level_ptr> **array1, **array2, **result_array; //arrays of pointer to nodes
+    RNode<Level_ptr> **array1, **array2, **result_array; // arrays of pointer to nodes
     array1 = new RNode<Level_ptr> *[bigger_size_of_group];
     try
     {
@@ -130,12 +142,12 @@ Group_ptr Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
     bigger_group->GroupToArray(array1);
     smaller_group->GroupToArray(array2);
     // merging the group arrays we created o(n + m)
-    result_size = MergeGroupArrays(array1, array2, bigger_size_of_group, smaller_size_of_group, result_array);
+    int final_size = MergeGroupArrays(array1, array2, bigger_size_of_group, smaller_size_of_group, result_array);
     // making it a group o(n + m)
-    new_group->ArrayToGroup(result_array, result_size, sum_of_players);
+    new_group->ArrayToGroup(result_array, final_size, sum_of_players);
     delete[] array1;
     delete[] array2;
-    for (int i = 0; i < result_size; i++)
+    for (int i = 0; i < final_size; i++)
     {
         delete result_array[i];
     }
@@ -151,19 +163,19 @@ Status Game::MergeGroups(int GroupID1, int GroupID2)
     }
     try
     {
-        if (GroupID1 == GroupID2) //same group
+        if (GroupID1 == GroupID2) // same group
         {
             return S_SUCCESS;
         }
-        if (groups.Find(GroupID1) == groups.Find(GroupID2)) //groups were already merged
+        if (groups.Find(GroupID1) == groups.Find(GroupID2)) // groups were already merged
         {
             return S_SUCCESS;
         }
-        //if we reached here, need to merge groups. let's do itttttt
+        // if we reached here, need to merge groups. let's do itttttt
         Group_ptr new_group = internalMergeGroups(groups.getData(GroupID1), groups.getData(GroupID2));
         groups.setData(GroupID1, new_group);
         groups.setData(GroupID2, new_group);
-        groups.Union(groups.Find(GroupID1), groups.Find(GroupID2));
+        groups.Union(GroupID1, GroupID2);
     }
 
     catch (const std::exception &e)
@@ -188,7 +200,7 @@ Status Game::AddPlayer(int PlayerID, int GroupID, int score)
     {
         // we are using T& Tree<T>::getData(int key_to_find)
         // only when we know that Tree<T>.isExist(key_to_find) is true!
-        int group_current_id = groups.Find(GroupID); //o(log*k)
+        int group_current_id = groups.Find(GroupID); // o(log*k)
         Player_ptr player = make_shared<Player>(PlayerID, 0, group_current_id, score);
 
         // Adding to players (table) o(1)
@@ -306,7 +318,7 @@ Status Game::changePlayerIDScore(int PlayerID, int NewScore)
 Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lowerLevel, int higherLevel, double *players)
 {
     Group_ptr group;
-    if (GroupID != 0) //a specific group and not the entire game
+    if (GroupID != 0) // a specific group and not the entire game
     {
         group = groups.getData(GroupID);
         return group->getPercentOfPlayersWithScoreInBounds(score, lowerLevel, higherLevel, players);
@@ -319,14 +331,14 @@ Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lo
 
 Status Game::averageHighestPlayerLevelByGroup(int GroupID, int m, double *avgLevel)
 {
-    if (!isInRange(num_of_groups, GroupID) || m <= 0) //group or m are illegal
+    if (!isInRange(num_of_groups, GroupID) || m <= 0) // group or m are illegal
     {
         return S_INVALID_INPUT;
     }
     try
     {
         Group_ptr group;
-        if (GroupID != 0) //a specific group and not the entire game
+        if (GroupID != 0) // a specific group and not the entire game
         {
             group = groups.getData(GroupID);
             return group->averageHighestPlayerLevelByGroup(m, avgLevel);
@@ -342,4 +354,4 @@ Status Game::averageHighestPlayerLevelByGroup(int GroupID, int m, double *avgLev
         return S_ALLOCATION_ERROR;
     }
 }
-//Status getPlayersBound(void *DS, int GroupID, int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);
+// Status getPlayersBound(void *DS, int GroupID, int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);

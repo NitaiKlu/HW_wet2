@@ -20,6 +20,11 @@ int Group::getNumOfPlayers() const
     return num_of_players;
 }
 
+int Group::getNumOfLevels() const
+{
+    return levels.getTreeSize();
+}
+
 int Group::getId() const
 {
     return id;
@@ -112,7 +117,7 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
     int additional_players = sum_rank_lower - (num_of_players - m);
     //now calculating the product of sum * level for each level
     int product = levels.prodRank(highest_level) - levels.prodRank(lower_m_level) + additional_players * lower_m_level;
-    *avgLevel = product / m;
+    *avgLevel = ((double)product / m);
     return S_SUCCESS;
 }
 
@@ -130,6 +135,6 @@ void Group::GroupToArray(RNode<Level_ptr> **level_array)
 void Group::ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players) //c'tor by array
 {
     //assuming allocation of Group already happend
-    levels.ArrayToTree(level_array, 0, size - 1);
+    levels.ArrayToTree(level_array, 0, size);
     num_of_players = sum_of_players;
 }

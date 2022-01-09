@@ -242,7 +242,7 @@ typename RTree<T>::const_iterator RTree<T>::end() const
 template <class T>
 void RTree<T>::ArrayToTree(RNode<T> **array, int start, int end)
 {
-    root = internalArrayToTree(nullptr, array, start, end);
+    root = internalArrayToTree(nullptr, array, start, end - 1);
     if (root == nullptr)
     {
         return;
@@ -758,12 +758,12 @@ RNode<T>* RTree<T>::internalSelectFromAbove(RNode<T> *node, int rank, int ind, R
     }
     if (left_weight > rank - 1)
     {
-        return internalSelect(node->getLeft(), rank, ind);
+        return internalSelectFromAbove(node->getLeft(), rank, ind, keeper, min_diff);
     }
     else
     {
         rank -= left_weight + node->getSizeAt(ind);
-        return internalSelect(node->getRight(), rank, ind);
+        return internalSelectFromAbove(node->getRight(), rank, ind, keeper, min_diff);
     }
 }
 

@@ -22,6 +22,7 @@ public:
     bool isEmpty() const;
     Level_ptr getLevelPtr(int level);
     int getNumOfPlayers() const;
+    int getNumOfLevels() const;
     int getId() const;
     int getScale() const;
     Status addPlayer(Id id, Player_ptr player);
