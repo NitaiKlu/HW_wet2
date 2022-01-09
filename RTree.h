@@ -259,7 +259,12 @@ RNode<T>* RTree<T>::internalArrayToTree(RNode<T> *parent, RNode<T> **array, int 
         return nullptr;
     }
     int middle = (start + end) / 2;
-    RNode<T> *curr = array[middle];
+    RNode<T> *to_replace = array[middle];
+    RNode<T> *curr = new RNode<T>(rank_size ,to_replace->getKey(), to_replace->getData());
+    for (int i = 1; i <= rank_size; i++)
+    {
+        curr->addToSize(i, to_replace->getSizeAt(i));
+    }
     size++;
     curr->setLeft(internalArrayToTree(curr, array, start, middle - 1));
     curr->setRight(internalArrayToTree(curr, array, middle + 1, end));
@@ -778,7 +783,7 @@ RNode<T> *RTree<T>::internalInsert(RNode<T> *node, int key_to_insert, const T &d
         int key = node->getKey();
         if (key_to_insert == key)
         {
-            // We chose to enable information updating//
+            //We chose to enable information updating
             node->setData(data);
         }
         else if (key_to_insert > key)
