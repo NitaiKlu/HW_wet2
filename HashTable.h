@@ -60,6 +60,7 @@ public:
     T &find(int key) const;
     void printHashTable() const;
     int getSize() const;
+    bool isExistAt(int index) const;
     T& getDataAt(int index) const;
 };
 
@@ -334,10 +335,21 @@ int HashTable<T>::getSize() const
     return size;
 }
 
+//assumes index is in array-size boundries
 template <class T>
 T& HashTable<T>::getDataAt(int index) const
 {
     return items[index]->data;
+}
+
+template <class T>
+bool HashTable<T>::isExistAt(int index) const
+{
+    if(index >= size || index < 0)
+        return false;
+    if(items[index] == deleted || items[index] == not_exist)
+        return false;
+    return true;
 }
 
 #endif //HASH_H_

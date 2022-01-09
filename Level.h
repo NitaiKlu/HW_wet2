@@ -25,6 +25,7 @@ private:
     HashTable<Player_ptr> players; // players is a hashTable: key = id of players, data = pointer Players at this level from the group
     int level;
     Player_ptr getPlayerAt(int index) const;
+    bool isExistPlayerAt(int index) const;
 public:
     Level(int level) : level(level), players() {}
     Level(const Level &level) = delete;

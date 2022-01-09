@@ -6,7 +6,7 @@ bool Game::isInRange(int range, int number) const
 }
 
 //merging level1 and level 2 to result
-void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *level2, RNode<Level_ptr> *result) // merging 2 Levels into a large arranged by id Level
+void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *level2, RNode<Level_ptr> *result, Level_ptr result_level) // merging 2 Levels into a large arranged by id Level
 {
     /**merge level nodes in 2 tasks:
      * 1. merge the players - transferring players from one level to another
@@ -14,8 +14,6 @@ void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *le
      * note: no need to update weights - this will happen afterwards when creating a tree
      * */
     //task 1:
-    Level_ptr result_level = make_shared<Level>(level1->getKey());
-    result = new RNode<Level_ptr>(level1->getNumOfWeights(), level1->getKey(), result_level);
     result_level->addAllPlayers(level1->getData(), level2->getData());
     //task 2:
     //should I begin from i = 0 ? and until where? what weight is this
@@ -50,7 +48,9 @@ int Game::MergeGroupArrays(RNode<Level_ptr> **group1, RNode<Level_ptr> **group2,
         // the levels are equal. need to merge between them
         else
         {
-            MergeLevelsToSameGroup(group1[i1], group2[i2], result[res]);
+            Level_ptr result_level = make_shared<Level>(group1[i1]->getKey());
+            result[res] = new RNode<Level_ptr>(group1[i1]->getNumOfWeights(), group1[i1]->getKey(), result_level, nullptr);
+            MergeLevelsToSameGroup(group1[i1], group2[i2], result[res], result_level);
             i1++;
             i2++;
         }
@@ -70,10 +70,10 @@ int Game::MergeGroupArrays(RNode<Level_ptr> **group1, RNode<Level_ptr> **group2,
         i2++;
         res++;
     }
-    return res;
+    return res - 1;
 }
 
-void Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
+Group_ptr Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
 {
     Group_ptr bigger_group, smaller_group;
     //deciding who's bigger
@@ -123,6 +123,12 @@ void Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
     delete[] array1;
     delete[] array2;
     delete[] result_array;
+    for (int i = 0; i < count; i++)
+    {
+        /* code */
+    }
+    
+    return new_group;
 }
 
 Status Game::MergeGroups(int GroupID1, int GroupID2)
@@ -142,7 +148,7 @@ Status Game::MergeGroups(int GroupID1, int GroupID2)
             return S_SUCCESS;
         }
         //if we reached here, need to merge groups. let's do itttttt
-        internalMergeGroups(groups.getData(GroupID1), groups.getData(GroupID2));
+        Group_ptr new_group = internalMergeGroups(groups.getData(GroupID1), groups.getData(GroupID2));
         groups.Union(groups.Find(GroupID1), groups.Find(GroupID2));
     }
 

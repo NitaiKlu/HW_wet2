@@ -5,6 +5,11 @@ Player_ptr Level::getPlayerAt(int index) const
     return players.getDataAt(index);
 }
 
+bool Level::isExistPlayerAt(int index) const
+{
+    return players.isExistAt(index);
+}
+
 bool Level::isEmpty() const
 {
     return players.getCount() == 0;
@@ -57,12 +62,12 @@ void Level::addAllPlayers(Level_ptr level1, Level_ptr level2) //add all players 
     int level2_size = level2->getSizeOfTable();
     for(int i = 0; i < level1_size; i++)
     {
-        if(level1->getPlayerAt(i)->getId() > 0) //this player actually exists and need to be transferred
+        if(level1->isExistPlayerAt(i) == true) //this player actually exists and need to be transferred
             addPlayer(level1->getPlayerAt(i));
     }
     for(int i = 0; i < level2_size; i++)
     {
-        if(level2->getPlayerAt(i)->getId() > 0) //this player actually exists and need to be transferred
+        if(level2->isExistPlayerAt(i) == true) //this player actually exists and need to be transferred
             addPlayer(level2->getPlayerAt(i));
     }
 }

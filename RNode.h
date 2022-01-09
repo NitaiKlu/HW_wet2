@@ -273,19 +273,28 @@ RNode<T> *RNode<T>::getMax()
 template <class T>
 void RNode<T>::setParent(RNode<T> *node)
 {
-    parent = node;
+    if(node == nullptr)
+        parent = nullptr;
+    else
+        parent = node;
 }
 
 template <class T>
 void RNode<T>::setLeft(RNode<T> *node)
 {
-    left = node;
+    if(node == nullptr)
+        left = nullptr;
+    else
+        left = node;
 }
 
 template <class T>
 void RNode<T>::setRight(RNode<T> *node)
 {
-    right = node;
+    if(node == nullptr)
+        right = nullptr;
+    else
+        right = node;
 }
 
 #endif // RNODE_H_
