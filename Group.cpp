@@ -92,13 +92,15 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
 
     int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(low_level, score);
     int sum_of_players = sum_high_rank - sum_low_rank + levels.getSumSize(low_level);
- 
-    if (num_of_players_mentioned == 0 || num_of_players == 0) //no players fits the purpose..
-    {
+    
+    if(sum_of_players == 0 || num_of_players == 0)
+    {//no players in this level interval
         *players = 0;
         return S_FAILURE;
     }
-    *players = ((num_of_players_mentioned * 100) / sum_of_players);
+
+    //no players fits the purpose..
+    *players = ((double)(num_of_players_mentioned * 100) / sum_of_players);
     return S_SUCCESS;
 }
 
