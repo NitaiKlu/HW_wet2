@@ -110,7 +110,7 @@ Group_ptr Game::internalMergeGroups(Group_ptr group1, Group_ptr group2)
         bigger_group = group2;
         smaller_group = group1;
     }
-    Group_ptr new_group = make_shared<Group>(bigger_group->getId(), smaller_group->getScale());
+    Group_ptr new_group = make_shared<Group>(bigger_group->getId(), scale);
     int bigger_size_of_group = bigger_group->getNumOfLevels();
     int smaller_size_of_group = smaller_group->getNumOfLevels();
     int result_size = bigger_size_of_group + smaller_size_of_group; // the real result size might be smaller!
@@ -294,7 +294,6 @@ Status Game::changePlayerIDScore(int PlayerID, int NewScore)
     {
         Player_ptr player = players.getPlayerPtr(PlayerID);
         int group_id = player->getGroup();
-        int level = player->getLevel();
 
         // removing the player from groups and levels
         groups.getData(group_id)->removePlayer(PlayerID, player);

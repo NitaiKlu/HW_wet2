@@ -1,10 +1,13 @@
 #ifndef RNODE_H_
 #define RNODE_H_
 
+#include <stdexcept>
 template <class T>
 class RNode
 {
 private:
+    // weights[0] = "normal weight"
+    int num_of_weights;
     int key;
     int height;
     int balance;
@@ -14,8 +17,6 @@ private:
     T data;
     // sizes and weights have a size of num_of_weights+1
     // sizes[0] = 1
-    // weights[0] = "normal weight"
-    int num_of_weights;
     int *sizes;
     int *weights;
     void internalUpdateWeight(int index);

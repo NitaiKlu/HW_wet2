@@ -171,7 +171,8 @@ void HashTable<T>::deHash()
     for (int i = 0; i < previous; i++)
     {
         int key, index, j = 0;
-        if (items[i]->key > 0) //items[i] exists.
+        key = items[i]->key;
+        if (key > 0) //items[i] exists.
         {
             //there is an element to copy from this cell
             index = hash(key, j);
@@ -208,7 +209,8 @@ void HashTable<T>::reHash()
     for (int i = 0; i < previous; i++)
     {
         int key, index, j = 0;
-        if (items[i]->key > 0) //items[i] exists.
+        key = items[i]->key;
+        if (key > 0) //items[i] exists.
         {
             //there is an element to copy from this cell
             index = hash(key, j);

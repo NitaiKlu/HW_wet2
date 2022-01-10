@@ -27,7 +27,7 @@ private:
     Player_ptr getPlayerAt(int index) const;
     bool isExistPlayerAt(int index) const;
 public:
-    Level(int level) : level(level), players() {}
+    Level(int level) : players(), level(level) {}
     Level(const Level &level) = delete;
     ~Level() = default;
     bool isEmpty() const;

@@ -92,9 +92,10 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
 
     int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(low_level, score);
     int sum_of_players = sum_high_rank - sum_low_rank + levels.getSumSize(low_level);
-
+ 
     if (num_of_players_mentioned == 0 || num_of_players == 0) //no players fits the purpose..
     {
+        *players = 0;
         return S_FAILURE;
     }
     *players = ((num_of_players_mentioned * 100) / sum_of_players);
@@ -106,6 +107,7 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
 {
     if (m > num_of_players)
     {
+        *avgLevel = 0;
         return S_FAILURE;
     }
     //searching for m highest leveled players in the group
@@ -134,6 +136,7 @@ void Group::GroupToArray(RNode<Level_ptr> **level_array)
 
 void Group::ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players) //c'tor by array
 {
+    levels.remove(0);
     //assuming allocation of Group already happend
     levels.ArrayToTree(level_array, 0, size);
     num_of_players = sum_of_players;

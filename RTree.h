@@ -738,15 +738,15 @@ typename Tree<T>::const_iterator Tree<T>::search(const int key) const
 template <class T>
 int RTree<T>::selectFromAboveAt(int rank, int ind) const
 {
-    return internalSelectFromAbove(root, rank, ind, root, -1)->getKey();
+
+    RNode<T>* result = internalSelectFromAbove(root, rank, ind, root, -1);
+    return (result == nullptr) ? 0 : result->getKey();
 }
 template <class T>
 RNode<T>* RTree<T>::internalSelectFromAbove(RNode<T> *node, int rank, int ind, RNode<T> *keeper, int min_diff) const
 {
-    if(rank < 0)
+    if(rank < 0 || node == nullptr)
         return keeper;
-    if (node == nullptr)
-        return nullptr;
     int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
     if (left_weight == rank - 1)
         return node;
