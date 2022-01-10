@@ -260,7 +260,7 @@ RNode<T>* RTree<T>::internalArrayToTree(RNode<T> *parent, RNode<T> **array, int 
     }
     int middle = (start + end) / 2;
     RNode<T> *to_replace = array[middle];
-    RNode<T> *curr = new RNode<T>(rank_size ,to_replace->getKey(), to_replace->getData());
+    RNode<T> *curr = new RNode<T>(rank_size ,to_replace->getKey(), to_replace->getData(), parent);
     for (int i = 1; i <= rank_size; i++)
     {
         curr->addToSize(i, to_replace->getSizeAt(i));

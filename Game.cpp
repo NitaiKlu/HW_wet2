@@ -319,6 +319,8 @@ Status Game::getPercentOfPlayersWithScoreInBounds(int GroupID, int score, int lo
     Group_ptr group;
     if(GroupID > num_of_groups)
         return S_INVALID_INPUT;
+    if(lowerLevel > higherLevel)
+        return S_FAILURE;
     if (GroupID != 0) // a specific group and not the entire game
     {
         group = groups.getData(GroupID);
