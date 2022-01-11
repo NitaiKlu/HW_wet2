@@ -750,7 +750,7 @@ RNode<T>* RTree<T>::internalSelectFromAbove(RNode<T> *node, int rank, int ind, R
     if(rank < 0 || node == nullptr)
         return keeper;
     int left_weight = (node->getLeft() == nullptr) ? 0 : node->getLeft()->getWeightAt(ind);
-    if (left_weight == rank - 1)
+    if (left_weight == rank - 1 && node->getSizeAt(rank_size - 1) != 0)
         return node;
     if(left_weight + node->getSizeAt(ind) >= rank) { //cause wer'e searching from above
         if(left_weight + node->getSizeAt(ind) - rank < min_diff || min_diff == -1) { //this is closer than keeper

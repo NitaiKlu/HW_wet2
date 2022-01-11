@@ -10,8 +10,7 @@ using std::endl;
 using std::make_shared;
 using std::shared_ptr;
 
-#define M 11
-#define PRIME 353
+#define M 53
 #define FACTOR 2
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
@@ -41,20 +40,19 @@ private:
     int hash(int key, int index) const; //double hashing
     void DestroyItems();
     int findMyHash(int key); //receives a key and returns the index of a free cell for it to be placed in it or ALREADY_THERE
-    int findCLosestPrime(int number);
-
+    int findNextSize(int action);
+    void reHash(); //enlarging the table
+    void deHash(); //decreasing the table
+    void printHashTable() const;
 public:
     HashTable();
     HashTable(const HashTable<T> &copy) = delete;
     ~HashTable();
     int getCount() const;
-    void reHash(); //enlarging the table
-    void deHash(); //decreasing the table
     void insert(int key, const T &data);
     void remove(int key);
     bool isExist(int key) const;
     T &find(int key) const;
-    void printHashTable() const;
     int getSize() const;
     bool isExistAt(int index) const;
     T& getDataAt(int index) const;
@@ -68,8 +66,8 @@ template <class T>
 int HashTable<T>::hash(int key, int index) const
 {
     int hash1 = key % size;
-    int hash2 = PRIME - (key % PRIME);
-    return (hash1 + index * hash2) % size;
+    int r = 1 + key % (size - 3);
+    return (hash1 + (r + 1)*index) % size;
 }
 
 template <class T>
@@ -85,9 +83,15 @@ HashTable<T>::HashTable() : size(M), count(0)
 }
 
 template <class T> 
-int HashTable<T>::findCLosestPrime(int number)
+int HashTable<T>::findNextSize(int action)
 {
-    return number;
+    if(action == 1) { //enlarge
+        return size * FACTOR;
+    }
+    if(action == -1) { //decrease
+        return size * DECREASE_FACTOR * 2;
+    }
+    return size;
 }
 
 /**template <class T>
@@ -155,7 +159,7 @@ void HashTable<T>::deHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size = findCLosestPrime(size * DECREASE_FACTOR * 2);
+    int new_size = findNextSize(-1);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
@@ -193,7 +197,7 @@ void HashTable<T>::reHash()
 {
     //creating and inizializing a new_items array
     Item<T> **new_items;
-    int new_size = findCLosestPrime(size * FACTOR);
+    int new_size = findNextSize(1);
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
@@ -211,13 +215,14 @@ void HashTable<T>::reHash()
             //there is an element to copy from this cell
             index = hash(key, j);
             while (j < size && new_items[index] != not_exist) //looking for a free spot
-            //we don't mind if it finds DELETED, that's even good
             {
                 index = hash(key, j);
                 j++;
             }
             /*****************
              * what happen's if j can't find a spot?
+             * deleting new_items
+             * reHashing with double the size of new_items
              * ****************/
             new_items[index] = items[i];
         }
