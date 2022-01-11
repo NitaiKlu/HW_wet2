@@ -83,6 +83,11 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
     //searching the closest levels that exist in group that are in the range specified
     int low_level = levels.searchFromAbove(lowerLevel);
     int high_level = levels.searchFromBelow(higherLevel);
+    if(low_level < 0 || high_level < 0)
+    { //no levels in the group match the request
+        *players = 0;
+        return S_FAILURE;
+    }
     //getting the score-ish rank of both levels
     int score_low_rank = levels.rankAtScore(low_level, score);
     int score_high_rank = levels.rankAtScore(high_level, score);

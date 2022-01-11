@@ -10,17 +10,13 @@ using std::endl;
 using std::make_shared;
 using std::shared_ptr;
 
-#define M 563
+#define M 11
 #define PRIME 353
 #define FACTOR 2
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
 #define DELETED -3
 #define DECREASE_FACTOR 0.25
-/**remain:
- * change to new size*factor or nearest prime when rehashing?
- * valgrind check
- * */
 
 template <class T>
 class Item
@@ -163,7 +159,7 @@ void HashTable<T>::deHash()
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
-        new_items[i]->key = NOT_EXIST;
+        new_items[i] = not_exist;
     }
     int previous = size;
     size = new_size;
@@ -176,7 +172,7 @@ void HashTable<T>::deHash()
         {
             //there is an element to copy from this cell
             index = hash(key, j);
-            while (j < size && new_items[index]->key != NOT_EXIST) //looking for a free spot
+            while (j < size && new_items[index] != not_exist) //looking for a free spot
             //we don't mind if it finds DELETED, that's even good
             {
                 index = hash(key, j);
@@ -201,7 +197,7 @@ void HashTable<T>::reHash()
     new_items = new Item<T> *[new_size];
     for (int i = 0; i < new_size; i++)
     {
-        new_items[i]->key = NOT_EXIST;
+        new_items[i] = not_exist;
     }
     int previous = size;
     size = new_size;
@@ -214,7 +210,7 @@ void HashTable<T>::reHash()
         {
             //there is an element to copy from this cell
             index = hash(key, j);
-            while (j < size && new_items[index]->key != NOT_EXIST) //looking for a free spot
+            while (j < size && new_items[index] != not_exist) //looking for a free spot
             //we don't mind if it finds DELETED, that's even good
             {
                 index = hash(key, j);

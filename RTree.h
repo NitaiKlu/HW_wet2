@@ -652,13 +652,15 @@ RNode<T> *RTree<T>::internalSearchFromAbove(RNode<T> *node, int lower_key) const
 template <class T>
 int RTree<T>::searchFromBelow(int upper_key) const
 {
-    return internalSearchFromBelow(root, upper_key)->getKey();
+    RNode<T>* result = internalSearchFromBelow(root, upper_key);
+    return (result == nullptr)?  -1 : result->getKey();
 }
 
 template <class T>
 int RTree<T>::searchFromAbove(int lower_key) const
 {
-    return internalSearchFromAbove(root, lower_key)->getKey();
+    RNode<T>* result = internalSearchFromAbove(root, lower_key);
+    return (result == nullptr)?  -1 : result->getKey();
 }
 
 template <class T>
