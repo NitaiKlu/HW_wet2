@@ -138,13 +138,14 @@ Status Group::getPlayersBound(int score, int m, int *LowerBoundPlayers, int *Hig
         return S_FAILURE;
     }
     int marginal_level = levels.sumSelectFromAbove(num_of_players - m);
-    int sum_rank_lower = levels.sumRank(marginal_level);
     int highest_level = levels.getHighestLevel();
-    // this is the remainder of players to take from marginal_level:
-    int additional_players = sum_rank_lower - (num_of_players - m);
     // number of already counted players
-    int base_players = levels.rankAtScore(highest_level, score) - levels.rankAtScore(marginal_level, score);
-    *LowerBoundPlayers = *HigherBoundPlayers = base_players;
+    int counted_players = levels.rankAtScore(highest_level, score) - levels.rankAtScore(marginal_level, score);
+    int added_players = levels.sumRank(highest_level) - levels.sumRank(marginal_level);
+    // this is the remainder of players to take from marginal_level:
+    int additional_players = m - added_players;
+    //**********
+    *LowerBoundPlayers = *HigherBoundPlayers = counted_players;
     // number of optional players to add and count
     int score_players = levels.getSizeAt(marginal_level, score);
     // number of optional players to add without counting
