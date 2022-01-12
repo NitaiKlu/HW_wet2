@@ -54,6 +54,6 @@ public:
     Status changePlayerIDScore(int PlayerID, int NewScore);
     Status getPercentOfPlayersWithScoreInBounds (int GroupID, int score, int lowerLevel, int higherLevel, double * players);
     Status averageHighestPlayerLevelByGroup(int GroupID, int m, double * avgLevel);
-    Status getPlayersBound(void *DS, int GroupID, int score, int m, int * LowerBoundPlayers, int * HigherBoundPlayers);
+    Status getPlayersBound(int GroupID, int score, int m, int * LowerBoundPlayers, int * HigherBoundPlayers);
 };
 #endif
