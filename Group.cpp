@@ -34,40 +34,40 @@ int Group::getScale() const
     return scale;
 }
 
-//assuming player's data is ok (score is in range, level is not negative, etc.)
+// assuming player's data is ok (score is in range, level is not negative, etc.)
 Status Group::addPlayer(Id id, Player_ptr player)
 {
     int level = player->getLevel();
-    if (!levels.isExist(level)) //this level doesn't exist
+    if (!levels.isExist(level)) // this level doesn't exist
     {
         levels.insert(level, make_shared<Level>(level));
     }
     // getting level zero - costs o(1) since it's left_most
     Level_ptr players_of_this_level = levels.getData(level);
-    //adding player to the level
+    // adding player to the level
     players_of_this_level->addPlayer(player);
     levels.increaseScore(player->getLevel(), player->getScore());
-    //updating number of players in the group
+    // updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
 }
 
-//assumes level is empty!!
+// assumes level is empty!!
 void Group::addLevel(Level_ptr new_level)
 {
     levels.insert(new_level->getLevel(), new_level);
 }
 
-//assumes the player exists in the group.
+// assumes the player exists in the group.
 Status Group::removePlayer(Id id, Player_ptr player)
 {
     int level = player->getLevel();
     Level_ptr players_of_this_level = levels.getData(level);
-    //remove from the level
+    // remove from the level
     players_of_this_level->removePlayer(id);
-    //updating size (weight) in levels (RTree)
+    // updating size (weight) in levels (RTree)
     levels.decreaseScore(level, player->getScore());
-    //lowering number of players in the group
+    // lowering number of players in the group
     num_of_players--;
     // checking if the level is now empty but not level 0
     if (players_of_this_level->isEmpty() && level != 0)
@@ -77,18 +77,18 @@ Status Group::removePlayer(Id id, Player_ptr player)
     return S_SUCCESS;
 }
 
-//assigns to "players" parameter the *precentage* of players within [lowerLevel, upperLevel] with score = score given
+// assigns to "players" parameter the *precentage* of players within [lowerLevel, upperLevel] with score = score given
 Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, int higherLevel, double *players)
 {
-    //searching the closest levels that exist in group that are in the range specified
+    // searching the closest levels that exist in group that are in the range specified
     int low_level = levels.searchFromAbove(lowerLevel);
     int high_level = levels.searchFromBelow(higherLevel);
-    if(low_level < 0 || high_level < 0)
-    { //no levels in the group match the request
+    if (low_level < 0 || high_level < 0)
+    { // no levels in the group match the request
         *players = 0;
         return S_FAILURE;
     }
-    //getting the score-ish rank of both levels
+    // getting the score-ish rank of both levels
     int score_low_rank = levels.rankAtScore(low_level, score);
     int score_high_rank = levels.rankAtScore(high_level, score);
 
@@ -97,19 +97,19 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
 
     int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(low_level, score);
     int sum_of_players = sum_high_rank - sum_low_rank + levels.getSumSize(low_level);
-    
-    if(sum_of_players == 0 || num_of_players == 0)
-    {//no players in this level interval
+
+    if (sum_of_players == 0 || num_of_players == 0)
+    { // no players in this level interval
         *players = 0;
         return S_FAILURE;
     }
 
-    //no players fits the purpose..
+    // no players fits the purpose..
     *players = ((double)(num_of_players_mentioned * 100) / sum_of_players);
     return S_SUCCESS;
 }
 
-//assumes m > 0
+// assumes m > 0
 Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
 {
     if (m > num_of_players)
@@ -117,20 +117,45 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
         *avgLevel = 0;
         return S_FAILURE;
     }
-    //searching for m highest leveled players in the group
-    //this is the lower level:
+    // searching for m highest leveled players in the group
+    // this is the lower level:
     int lower_m_level = levels.sumSelectFromAbove(num_of_players - m);
     int sum_rank_lower = levels.sumRank(lower_m_level);
     int highest_level = levels.getHighestLevel();
-    //this is the remainder of players to take from lower_m_level:
+    // this is the remainder of players to take from lower_m_level:
     int additional_players = sum_rank_lower - (num_of_players - m);
-    //now calculating the product of sum * level for each level
+    // now calculating the product of sum * level for each level
     int product = levels.prodRank(highest_level) - levels.prodRank(lower_m_level) + additional_players * lower_m_level;
     *avgLevel = ((double)product / m);
     return S_SUCCESS;
 }
 
-//creating an array out of the group tree
+Status Group::getPlayersBound(int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers)
+{
+    if (m > num_of_players)
+    {
+        *LowerBoundPlayers = *HigherBoundPlayers = 0;
+        return S_FAILURE;
+    }
+    int marginal_level = levels.sumSelectFromAbove(num_of_players - m);
+    int sum_rank_lower = levels.sumRank(marginal_level);
+    int highest_level = levels.getHighestLevel();
+    // this is the remainder of players to take from marginal_level:
+    int additional_players = sum_rank_lower - (num_of_players - m);
+    // number of already counted players
+    int base_players = levels.rankAtScore(highest_level, score) - levels.rankAtScore(marginal_level, score);
+    *LowerBoundPlayers = *HigherBoundPlayers = base_players;
+    // number of optional players to add and count
+    int score_players = levels.getSizeAt(marginal_level, score);
+    // number of optional players to add without counting
+    int rest_players = levels.getSumSize(marginal_level) - score_players;
+
+    *LowerBoundPlayers += (additional_players > rest_players) ? additional_players-rest_players : 0;
+    *HigherBoundPlayers += (additional_players > score_players) ? score_players : additional_players;
+    return S_SUCCESS;
+}
+
+// creating an array out of the group tree
 void Group::GroupToArray(RNode<Level_ptr> **level_array)
 {
     int i = 0;
@@ -141,10 +166,10 @@ void Group::GroupToArray(RNode<Level_ptr> **level_array)
     }
 }
 
-void Group::ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players) //c'tor by array
+void Group::ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players) // c'tor by array
 {
     levels.remove(0);
-    //assuming allocation of Group already happend
+    // assuming allocation of Group already happend
     levels.ArrayToTree(level_array, 0, size);
     num_of_players = sum_of_players;
 }

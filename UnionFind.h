@@ -80,6 +80,10 @@ void UnionFind<T>::MakeSet(int i, T const &data)
 {
     checkBounds(i);
     i--;
+    if (arr[i].parent != DOES_NOT_EXIST)
+    {
+        return;
+    }
     arr[i].parent = i;
     arr[i].item = new Info(data);
 }

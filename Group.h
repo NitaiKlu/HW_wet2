@@ -30,9 +30,9 @@ public:
     Status removePlayer(Id id, Player_ptr player);
     Status getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, int higherLevel, double *players);
     Status averageHighestPlayerLevelByGroup(int m, double *avgLevel);
+    Status getPlayersBound(int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);
     void GroupToArray(RNode<Level_ptr> **level_array);
     void ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players); //c'tor by array
-    
 };
 
 #endif //GROUP_H_
