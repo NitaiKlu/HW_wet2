@@ -10,7 +10,7 @@ using std::endl;
 using std::make_shared;
 using std::shared_ptr;
 
-#define M 53
+#define M 101
 #define FACTOR 2
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
@@ -177,14 +177,10 @@ void HashTable<T>::deHash()
             //there is an element to copy from this cell
             index = hash(key, j);
             while (j < size && new_items[index] != not_exist) //looking for a free spot
-            //we don't mind if it finds DELETED, that's even good
             {
                 index = hash(key, j);
                 j++;
             }
-            /*****************
-             * what happen's if j can't find a spot?
-             * ****************/
             new_items[index] = items[i];
         }
     }
@@ -220,10 +216,16 @@ void HashTable<T>::reHash()
                 j++;
             }
             /*****************
-             * what happen's if j can't find a spot?
+             * what happens if j can't find a spot?
              * deleting new_items
              * reHashing with double the size of new_items
              * ****************/
+            if(j == size)
+            {
+                delete[] new_items;
+                reHash();
+                return;
+            }
             new_items[index] = items[i];
         }
     }

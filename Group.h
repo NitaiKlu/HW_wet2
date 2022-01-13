@@ -33,6 +33,7 @@ public:
     Status getPlayersBound(int score, int m, int *LowerBoundPlayers, int *HigherBoundPlayers);
     void GroupToArray(RNode<Level_ptr> **level_array);
     void ArrayToGroup(RNode<Level_ptr> **level_array, int size, int sum_of_players); //c'tor by array
+    bool validCheck(int level);
 };
 
 #endif //GROUP_H_

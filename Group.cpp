@@ -1,4 +1,21 @@
 #include "Group.h"
+#include <cassert>
+bool Group::validCheck(int level)
+{
+    int sum = 0;
+    for (int score = 1; score <= scale; score++)
+    {
+        sum += levels.getSizeAt(level, score); 
+    }
+    Level_ptr players_of_this_level = levels.getData(level);
+    int tables_sum = players_of_this_level->getSizeOfLevel();
+    int nodes_sum = levels.getSumSize(level);
+    if (sum != tables_sum || tables_sum != nodes_sum)
+    {
+        return false;
+    }
+    return true;
+}
 
 bool Group::isLevelExist(int level) const
 {
@@ -46,7 +63,7 @@ Status Group::addPlayer(Id id, Player_ptr player)
     Level_ptr players_of_this_level = levels.getData(level);
     // adding player to the level
     players_of_this_level->addPlayer(player);
-    levels.increaseScore(player->getLevel(), player->getScore());
+    levels.increaseScore(level, player->getScore());
     // updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
@@ -105,7 +122,7 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
     }
 
     // no players fits the purpose..
-    *players = ((double)(num_of_players_mentioned * 100) / sum_of_players);
+    *players = ((double)(num_of_players_mentioned) / sum_of_players)*100;
     return S_SUCCESS;
 }
 
@@ -126,7 +143,7 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
     int additional_players = sum_rank_lower - (num_of_players - m);
     // now calculating the product of sum * level for each level
     int product = levels.prodRank(highest_level) - levels.prodRank(lower_m_level) + additional_players * lower_m_level;
-    *avgLevel = ((double)product / m);
+    *avgLevel = (double)product / m;
     return S_SUCCESS;
 }
 
