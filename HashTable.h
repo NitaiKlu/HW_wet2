@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 
-
 using std::cout;
 using std::endl;
 using std::make_shared;
@@ -42,8 +41,9 @@ private:
     int findMyHash(int key); //receives a key and returns the index of a free cell for it to be placed in it or ALREADY_THERE
     int findNextSize(int action);
     void reHash(int j); //enlarging the table
-    void deHash(); //decreasing the table
+    void deHash();      //decreasing the table
     void printHashTable() const;
+
 public:
     HashTable();
     HashTable(const HashTable<T> &copy) = delete;
@@ -55,7 +55,7 @@ public:
     T &find(int key) const;
     int getSize() const;
     bool isExistAt(int index) const;
-    T& getDataAt(int index) const;
+    T &getDataAt(int index) const;
 };
 
 /******************************
@@ -67,7 +67,7 @@ int HashTable<T>::hash(int key, int index, int big) const
 {
     int hash1 = key % big;
     int r = 1 + key % (big - 3);
-    return (hash1 + (r + 1)*index) % big;
+    return (hash1 + (r + 1) * index) % big;
 }
 
 template <class T>
@@ -82,13 +82,15 @@ HashTable<T>::HashTable() : size(M), count(0)
     }
 }
 
-template <class T> 
+template <class T>
 int HashTable<T>::findNextSize(int action)
 {
-    if(action > 0) { //enlarge
+    if (action > 0)
+    { //enlarge
         return size * FACTOR * action;
     }
-    if(action == -1) { //decrease
+    if (action == -1)
+    { //decrease
         return size * DECREASE_FACTOR * 2;
     }
     return size;
@@ -184,7 +186,7 @@ void HashTable<T>::deHash()
              * what happens if j can't find a spot?
              * deleting new_items
              * ****************/
-            if(j == new_size)
+            if (j == new_size)
             {
                 delete[] new_items;
                 return;
@@ -228,7 +230,7 @@ void HashTable<T>::reHash(int j)
              * deleting new_items
              * reHashing with double the size of new_items
              * ****************/
-            if(new_i == new_size)
+            if (new_i == new_size)
             {
                 delete[] new_items;
                 reHash(j + 1);
@@ -253,17 +255,15 @@ void HashTable<T>::insert(int key, const T &data)
     if (index == NOT_EXIST)      //couldn't find a spot
     {
         reHash(1); //enlarge the table
-        insert(key, data);
+        index = findMyHash(key);
     }
     else if (index == ALREADY_THERE) //no adding twice the same key in my table
     {
         return;
     }
-    else //found a spot! adding to the table
-    {
-        items[index] = new Item<T>(key, data);
-        count++;
-    }
+    //found a spot! adding to the table
+    items[index] = new Item<T>(key, data);
+    count++;
 }
 
 template <class T>
@@ -351,7 +351,7 @@ int HashTable<T>::getSize() const
 
 //assumes index is in array-size boundries
 template <class T>
-T& HashTable<T>::getDataAt(int index) const
+T &HashTable<T>::getDataAt(int index) const
 {
     return items[index]->data;
 }
@@ -359,9 +359,9 @@ T& HashTable<T>::getDataAt(int index) const
 template <class T>
 bool HashTable<T>::isExistAt(int index) const
 {
-    if(index >= size || index < 0)
+    if (index >= size || index < 0)
         return false;
-    if(items[index] == deleted || items[index] == not_exist)
+    if (items[index] == deleted || items[index] == not_exist)
         return false;
     return true;
 }
