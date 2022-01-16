@@ -96,15 +96,6 @@ int HashTable<T>::findNextSize(int action)
     return size;
 }
 
-/**template <class T>
-HashTable<T>::HashTable(const HashTable<T> &copy) : size(copy.size), count(copy.count)
-{
-    items = new shared_ptr<Item>[size];
-    for (int i = 0; i < size; i++)
-    {
-        items[i] = copy.items[i];
-    }
-}**/
 template <class T>
 void HashTable<T>::DestroyItems()
 {
@@ -132,9 +123,6 @@ int HashTable<T>::getCount() const
     return count;
 }
 
-/**
- * 
- * */
 template <class T>
 int HashTable<T>::findMyHash(int key)
 {
