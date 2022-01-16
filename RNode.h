@@ -5,8 +5,15 @@
 template <class T>
 class RNode
 {
+// Each node holds a (num_of_weights + 1) sized arrays- sizes and weights.
+// whereas sizes[0] is always 1, and for 0>i>=num_of_weights:
+// sizes[i] is a non negetive number.
+// for 0>=i>=num_of_weights: weight[i] is the sum of weight[i] of all
+// the nodes under that node + sizes[i].
+
+// We define rank(ind) of a node- "n" as the sum of all weight[ind] of
+// nodes before (smaller than) "n", including "n" itself.
 private:
-    // weights[0] = "normal weight"
     int num_of_weights;
     int key;
     int height;
@@ -15,8 +22,6 @@ private:
     RNode<T> *left;
     RNode<T> *right;
     T data;
-    // sizes and weights have a size of num_of_weights+1
-    // sizes[0] = 1
     int *sizes;
     int *weights;
     void internalUpdateWeight(int index);
@@ -106,12 +111,6 @@ void RNode<T>::internalUpdateWeight(int index)
     int l_weight = (left == nullptr) ? 0 : left->weights[index];
     int r_weight = (right == nullptr) ? 0 : right->weights[index];
     weights[index] = l_weight + r_weight + sizes[index];
-    /*
-    // updating the size sum (at[num_of_weights])
-    int l_weight_sum = (left == nullptr) ? 0 : left->weights[num_of_weights];
-    int r_weight_sum = (right == nullptr) ? 0 : right->weights[num_of_weights];
-    weights[index] = l_weight + r_weight + sizes[num_of_weights];
-    */
 }
 
 template <class T>
@@ -119,29 +118,8 @@ void RNode<T>::addToSize(int index, int addition)
 {
     //assuming index is checked at tree level
     sizes[index] += addition;
-    //sizes[num_of_weights] += addition;
-    //internalUpdateWeight(index);
     weights[index] += addition;
 }
-
-/*
-template <class T>
-void RNode<T>::updateSize(int index, int size)
-{
-
-    int old_size;
-    if (index >= 0 && index < num_of_weights)
-    {
-        old_size = sizes[index];
-        sizes[index] = size;
-    }
-    sizes[num_of_weights] += size - old_size;
-    updateWeight(index);
-
-    int addition = size - sizes[index];
-    addToSize(index, addition);
-}
-*/
 
 template <class T>
 void RNode<T>::updateWeightAt(int index)

@@ -148,39 +148,4 @@ void UnionFind<T>::Union(int p, int q)
         }
     }
 }
-
-/*
-template <class T>
-void UnionFind<T>::printUnionFind() const
-{
-    cout << "size:   | ";
-    for (int i = 0; i < size; i++)
-    {
-        if (arr[i].size != DOES_NOT_EXIST)
-        {
-            cout << arr[i].size << " | ";
-        }
-    }
-    cout << endl;
-    cout << "parent: | ";
-    for (int i = 0; i < size; i++)
-    {
-        if (arr[i].size != DOES_NOT_EXIST)
-        {
-            cout << arr[i].parent << " | ";
-        }
-    }
-    cout << endl;
-    cout << "index:  | ";
-    for (int i = 0; i < size; i++)
-    {
-        if (arr[i].size != DOES_NOT_EXIST)
-        {
-            cout << i << " | ";
-        }
-    }
-    cout << endl
-         << endl;
-}
-*/
 #endif // UF_H_

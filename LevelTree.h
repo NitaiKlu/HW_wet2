@@ -34,15 +34,12 @@ public:
     int getWeight(int key) const;
     int rank(int key) const;
     int select(int rank) const;
-    //int selectFromBelow(int upper_key, int rank) const;
-    int selectFromAbove(int lower_key, int rank) const;
 
     //"sum rank"- size=sum{sizes}- rank_index=scale
     int getSumSize(int key) const;
     int getSumWeight(int key) const;
     int sumRank(int key) const;
     int sumSelect(int rank) const;
-    //int sumSelectFromBelow(int upper_key, int rank) const;
     int sumSelectFromAbove(int lower_key) const;
 
     //"product rank"- size=sum*level- rank_index=scale+1
@@ -50,8 +47,6 @@ public:
     int getProdWeight(int key) const;
     int prodRank(int key) const;
     int prodSelect(int rank) const;
-    //int prodSelectFromBelow(int upper_key, int rank) const;
-    //int prodSelectFromAbove(int lower_key, int rank) const;
 
     //"score(ind) rank"- size=(#score=ind)- rank_index=score
     int getSizeAt(int key, int score) const;

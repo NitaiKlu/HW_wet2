@@ -10,9 +10,11 @@ using std::cout;
 using std::endl;
 using std::make_shared;
 using std::shared_ptr;
-
-// Each node in RTree holds a _rank_size sized array,
-// whereas node.weight[i] is the sum of weight[i] under that node.
+// Each node holds a (num_of_weights + 1) sized arrays- sizes and weights.
+// whereas sizes[0] is always 1, and for 0>i>=num_of_weights:
+// sizes[i] is a non negetive number.
+// for 0>=i>=num_of_weights: weight[i] is the sum of weight[i] of all
+// the nodes under that node + sizes[i].
 
 // We define rank(ind) of a node- "n" as the sum of all weight[ind] of
 // nodes before (smaller than) "n", including "n" itself.
@@ -33,15 +35,8 @@ private:
     RNode<T> *LL(RNode<T> *not_balanced);
     RNode<T> *RL(RNode<T> *not_balanced);
     RNode<T> *LR(RNode<T> *not_balanced);
-    /*
-    RNode<T> *next_bigger(RNode<T> *vertice) const;
-    RNode<T> *next_smaller(RNode<T> *vertice) const;
-    RNode<T> *internalArrayToTree(RNode<T> *parent, int *keys, T *array, int start, int end);
-    */
     RNode<T> *internalSearch(RNode<T> *node, int key_to_find) const;
-    // RNode<T> *internalUpdateSize(RNode<T> *node, int key_to_update, int index, int new_size);
     RNode<T> *internalAddToSize(RNode<T> *node, int key_to_update, int index, int addition);
-    //int internalRank(RNode<T> *node, int key_to_find) const;
     RNode<T> *internalInsert(RNode<T> *node, int key_to_insert, const T &data, RNode<T> *to_return);
     RNode<T> *internalRemove(RNode<T> *node, int key_to_remove);
     RNode<T> *internalClear(RNode<T> *root_ptr);
@@ -65,7 +60,6 @@ public:
     const_iterator begin() const;
     const_iterator reverseBegin() const;
     const_iterator end() const;
-    //const_iterator search(const int key) const;
     void printTree() const;
     void printTree(const std::string &prefix, const RNode<T> *node, bool isLeft) const;
     void ArrayToTree(RNode<T> **array, int start, int end);
@@ -298,17 +292,6 @@ RNode<T> *RTree<T>::next_smaller(RNode<T> *vertice) const
 template <class T>
 RTree<T>::RTree(int rank_size) : rank_size(rank_size), root(nullptr), left_most(nullptr), right_most(nullptr), size(0) {}
 
-/*
-template <class T>
-RTree<T>::RTree(const RTree<T> &copy)
-{
-    for (RTree<T>::const_iterator it = copy.begin(); it != copy.end(); ++it)
-    {
-        insert(it.getKey(), it.getData());
-    }
-}
-*/
-
 template <class T>
 RNode<T> *RTree<T>::internalClear(RNode<T> *root_ptr)
 {
@@ -437,30 +420,6 @@ RNode<T> *RTree<T>::RL(RNode<T> *not_balanced)
     return RR(not_balanced);
 }
 
-/*
-template <class T>
-RNode<T> *Tree<T>::next_smaller(RNode<T> *vertice) const
-{
-    RNode<T> *parent = vertice->getParent();
-    if (parent->getRight() == vertice)
-    { // vertice is bigger than his parent
-        return parent;
-    }
-    return next_smaller(parent);
-}
-
-template <class T>
-RNode<T> *Tree<T>::next_bigger(RNode<T> *vertice) const
-{
-    RNode<T> *parent = vertice->getParent();
-    if (parent->getLeft() == vertice)
-    { // vertice is smaller than his parent
-        return parent;
-    }
-    return next_bigger(parent);
-}
-*/
-
 template <class T>
 RNode<T> *RTree<T>::rotate(RNode<T> *not_balanced)
 {
@@ -514,40 +473,6 @@ void RTree<T>::checkBounds(int index) const
     if (index <= 0 || index > rank_size)
         throw std::out_of_range("Out of rank boundaries");
 }
-
-/*
-template <class T>
-RNode<T> *RTree<T>::internalUpdateSize(RNode<T> *node, int key_to_update, int index, int new_size)
-{
-    if (node == nullptr)
-        return nullptr;
-    checkBounds(index);
-    int key = node->getKey();
-    RNode<T> *search;
-    if (key_to_update == key)
-    {
-        search = node;
-        search->updateSize(index, new_size);
-    }
-    else if (key_to_update > key)
-    {
-        search = internalUpdateSize(node->getRight(), key_to_update, index, new_size);
-    }
-    else
-    {
-        search = internalUpdateSize(node->getLeft(), key_to_update, index, new_size);
-    }
-    if (search != nullptr)
-        node->updateAllWeights();
-    return search;
-}
-
-template <class T>
-void RTree<T>::updateSize(int key_to_update, int index, int new_size)
-{
-    internalUpdateSize(root, key_to_update, index, new_size);
-}
-*/
 
 template <class T>
 RNode<T> *RTree<T>::internalAddToSize(RNode<T> *node, int key_to_update, int index, int addition)
@@ -730,13 +655,6 @@ int RTree<T>::select(int rank) const
     return internalSelect(root, rank, 0)->getKey();
 }
 
-/*
-template <class T>
-typename Tree<T>::const_iterator Tree<T>::search(const int key) const
-{
-    return Tree<T>::const_iterator(this, internalSearch(root, key));
-}
-*/
 template <class T>
 int RTree<T>::selectFromAboveAt(int rank, int ind) const
 {
@@ -889,77 +807,6 @@ void RTree<T>::remove(int key)
     right_most = (root != nullptr) ? root->getMax() : nullptr;
 }
 
-/*
-template <class T>
-typename Tree<T>::const_iterator Tree<T>::begin() const
-{
-    return Tree<T>::const_iterator(this, left_most);
-}
-
-template <class T>
-typename Tree<T>::const_iterator Tree<T>::reverseBegin() const
-{
-    return Tree<T>::const_iterator(this, right_most);
-}
-
-template <class T>
-typename Tree<T>::const_iterator Tree<T>::end() const
-{
-    return Tree<T>::const_iterator(this, nullptr);
-}
-
-template <class T>
-void Tree<T>::ArrayToTree(T *array, int *keys, int start, int end)
-{
-    root = internalArrayToTree(nullptr, keys, array, start, end);
-    if (root == nullptr)
-    {
-        return;
-    }
-    left_most = root->getMin();
-    right_most = root->getMax();
-}
-
-template <class T>
-RNode<T> *Tree<T>::internalArrayToTree(RNode<T> *parent, int *keys, T *array, int start, int end)
-{
-    if (start > end)
-    {
-        return nullptr;
-    }
-    int middle = (start + end) / 2;
-    RNode<T> *curr = new RNode<T>(keys[middle], array[middle], parent);
-    size++;
-    curr->setLeft(internalArrayToTree(curr, keys, array, start, middle - 1));
-    curr->setRight(internalArrayToTree(curr, keys, array, middle + 1, end));
-    return curr;
-}
-
-template <class T>
-void Tree<T>::printTree() const
-{
-    printTree("", root, false);
-}
-
-template <class T>
-void Tree<T>::printTree(const std::string &prefix, const RNode<T> *node, bool isLeft) const
-{
-    if (node != nullptr)
-    {
-        std::cout << prefix;
-
-        std::cout << (isLeft ? "|--" : "'--");
-
-        // print the value of the node
-        std::cout << node->getKey() << "," << node->getDataConst() << std::endl;
-
-        // enter the next tree level - left and right branch
-        printTree(prefix + (isLeft ? "|   " : "    "), node->getLeft(), true);
-        printTree(prefix + (isLeft ? "|   " : "    "), node->getRight(), false);
-    }
-}
-*/
-
 template <class T>
 void RTree<T>::clearAll()
 {
@@ -982,7 +829,6 @@ void RTree<T>::printNodeRank(int key, int index) const
     cout << "   , Rank[index]: " << internalRank(root, key, index, 0) << endl;
 }
 
-//////////Available ONLY FOR TESTING!//////////
 template <class T>
 int RTree<T>::getSizeAt(int key, int ind) const
 {
@@ -990,18 +836,17 @@ int RTree<T>::getSizeAt(int key, int ind) const
     return internalSearch(root, key)->getSizeAt(ind);
 }
 
-
 template <class T>
 int RTree<T>::getWeightAt(int key, int ind) const
 {
     checkBounds(ind);
     return internalSearch(root, key)->getWeightAt(ind);
 }
+
 template <class T>
 int RTree<T>::getWeight(int key) const
 {
     return internalSearch(root, key)->getWeightAt(0);
 }
-///////////////////////////////////////////////
 
 #endif // RTREE_H_

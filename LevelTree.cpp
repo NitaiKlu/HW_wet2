@@ -76,16 +76,6 @@ int LevelTree::select(int rank) const
 {
     return tree.select(rank);
 }
-/* NEEDS TO BE IMPLEMENTED!///////////////////////////////////
-int LevelTree::selectFromBelow(int upper_key, int rank) const
-{
-    return tree.selectFromBelow(upper_key, rank);
-}
-int LevelTree::selectFromAbove(int lower_key, int rank) const
-{
-    return tree.selectFromAbove(lower_key, rank);
-}
-*/
 
 //"sum rank"- size=sum{sizes}- rank_index=scale+1
 int LevelTree::getSumSize(int key) const
@@ -104,11 +94,6 @@ int LevelTree::sumSelect(int rank) const
 {
     return tree.selectAt(rank, scale + 1);
 }
-/* NEEDS TO BE IMPLEMENTED!///////////////////////////////////
-int LevelTree::sumSelectFromAbove(int upper_key, int rank) const
-{
-    return tree.selectFromBelowAt(upper_key, rank, scale+1);
-}**/
 
 int LevelTree::sumSelectFromAbove(int rank) const
 {
@@ -133,16 +118,6 @@ int LevelTree::prodSelect(int rank) const
 {
     return tree.selectAt(rank, scale + 2);
 }
-/* NEEDS TO BE IMPLEMENTED!///////////////////////////////////
-int LevelTree::prodSelectFromBelow(int upper_key, int rank) const
-{
-    return tree.selectFromBelowAt(upper_key, rank, scale + 2);
-}
-int LevelTree::prodSelectFromAbove(int lower_key, int rank) const
-{
-    return tree.selectFromAboveAt(lower_key, rank, scale + 2);
-}
-*/
 
 //"score(ind) rank"- 0<score<=scale- rank_index=ind
 int LevelTree::getSizeAt(int key, int score) const
