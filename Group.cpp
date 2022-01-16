@@ -1,4 +1,21 @@
 #include "Group.h"
+#include <cassert>
+bool Group::validCheck(int level)
+{
+    int sum = 0;
+    for (int score = 1; score <= scale; score++)
+    {
+        sum += levels.getSizeAt(level, score); 
+    }
+    Level_ptr players_of_this_level = levels.getData(level);
+    int tables_sum = players_of_this_level->getSizeOfLevel();
+    int nodes_sum = levels.getSumSize(level);
+    if (sum != tables_sum || tables_sum != nodes_sum)
+    {
+        return false;
+    }
+    return true;
+}
 
 bool Group::isLevelExist(int level) const
 {
@@ -46,7 +63,7 @@ Status Group::addPlayer(Id id, Player_ptr player)
     Level_ptr players_of_this_level = levels.getData(level);
     // adding player to the level
     players_of_this_level->addPlayer(player);
-    levels.increaseScore(player->getLevel(), player->getScore());
+    levels.increaseScore(level, player->getScore());
     // updating number of players in the group
     num_of_players++;
     return S_SUCCESS;
@@ -88,24 +105,27 @@ Status Group::getPercentOfPlayersWithScoreInBounds(int score, int lowerLevel, in
         *players = 0;
         return S_FAILURE;
     }
-    // getting the score-ish rank of both levels
-    int score_low_rank = levels.rankAtScore(low_level, score);
-    int score_high_rank = levels.rankAtScore(high_level, score);
-
     int sum_low_rank = levels.sumRank(low_level);
     int sum_high_rank = levels.sumRank(high_level);
-
-    int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(low_level, score);
     int sum_of_players = sum_high_rank - sum_low_rank + levels.getSumSize(low_level);
-
-    if (sum_of_players == 0 || num_of_players == 0)
+    if (sum_of_players == 0 || num_of_players == 0)// no players fits the purpose..
     { // no players in this level interval
         *players = 0;
         return S_FAILURE;
     }
 
-    // no players fits the purpose..
-    *players = ((double)(num_of_players_mentioned * 100) / sum_of_players);
+    if(score <= 0 || score > scale)
+    {
+        *players = 0;
+        return S_SUCCESS;
+    }
+    // getting the score-ish rank of both levels
+    int score_low_rank = levels.rankAtScore(low_level, score);
+    int score_high_rank = levels.rankAtScore(high_level, score);
+
+    int num_of_players_mentioned = score_high_rank - score_low_rank + levels.getSizeAt(low_level, score);
+    
+    *players = ((double)(num_of_players_mentioned) / sum_of_players)*100;
     return S_SUCCESS;
 }
 
@@ -126,7 +146,7 @@ Status Group::averageHighestPlayerLevelByGroup(int m, double *avgLevel)
     int additional_players = sum_rank_lower - (num_of_players - m);
     // now calculating the product of sum * level for each level
     int product = levels.prodRank(highest_level) - levels.prodRank(lower_m_level) + additional_players * lower_m_level;
-    *avgLevel = ((double)product / m);
+    *avgLevel = (double)product / m;
     return S_SUCCESS;
 }
 
@@ -138,13 +158,14 @@ Status Group::getPlayersBound(int score, int m, int *LowerBoundPlayers, int *Hig
         return S_FAILURE;
     }
     int marginal_level = levels.sumSelectFromAbove(num_of_players - m);
-    int sum_rank_lower = levels.sumRank(marginal_level);
     int highest_level = levels.getHighestLevel();
-    // this is the remainder of players to take from marginal_level:
-    int additional_players = sum_rank_lower - (num_of_players - m);
     // number of already counted players
-    int base_players = levels.rankAtScore(highest_level, score) - levels.rankAtScore(marginal_level, score);
-    *LowerBoundPlayers = *HigherBoundPlayers = base_players;
+    int counted_players = levels.rankAtScore(highest_level, score) - levels.rankAtScore(marginal_level, score);
+    int added_players = levels.sumRank(highest_level) - levels.sumRank(marginal_level);
+    // this is the remainder of players to take from marginal_level:
+    int additional_players = m - added_players;
+    //**********
+    *LowerBoundPlayers = *HigherBoundPlayers = counted_players;
     // number of optional players to add and count
     int score_players = levels.getSizeAt(marginal_level, score);
     // number of optional players to add without counting

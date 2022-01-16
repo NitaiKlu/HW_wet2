@@ -16,7 +16,6 @@ void Game::MergeLevelsToSameGroup(RNode<Level_ptr> *level1, RNode<Level_ptr> *le
     // task 1:
     result_level->addAllPlayers(level1->getData(), level2->getData());
     // task 2:
-    // should I begin from i = 0 ? and until where? what weight is this
     for (int i = 1; i <= level1->getNumOfWeights(); i++)
     {
         result->addToSize(i, level1->getSizeAt(i) + level2->getSizeAt(i));
