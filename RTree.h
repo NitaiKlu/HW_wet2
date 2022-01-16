@@ -11,12 +11,12 @@ using std::endl;
 using std::make_shared;
 using std::shared_ptr;
 // Each node holds a (num_of_weights + 1) sized arrays- sizes and weights.
-// whereas sizes[0] is always 1, and for 0>i>=num_of_weights:
+// where sizes[0] is always 1, and for 0< i <=num_of_weights:
 // sizes[i] is a non negetive number.
-// for 0>=i>=num_of_weights: weight[i] is the sum of weight[i] of all
+// for 0 <= i <=num_of_weights: weight[i] is the sum of weight[i] of all
 // the nodes under that node + sizes[i].
 
-// We define rank(ind) of a node- "n" as the sum of all weight[ind] of
+// We define rank(ind) of a node- "n" as the sum of all sizes[ind] of
 // nodes before (smaller than) "n", including "n" itself.
 
 // Rank(key, ind) returns the rank(ind) of the node with key=key.
