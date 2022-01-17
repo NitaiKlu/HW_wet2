@@ -10,6 +10,7 @@ using std::make_shared;
 using std::shared_ptr;
 
 #define M 101
+#define C 3
 #define FACTOR 2
 #define NOT_EXIST -1
 #define ALREADY_THERE -2
@@ -36,6 +37,7 @@ private:
     Item<T> **items; //array of pointers to item - this is the table itself
     Item<T> *deleted;
     Item<T> *not_exist;
+    int r(int x) const;
     int hash(int key, int index, int big) const; //double hashing
     void DestroyItems();
     int findMyHash(int key); //receives a key and returns the index of a free cell for it to be placed in it or ALREADY_THERE
@@ -61,13 +63,23 @@ public:
 /******************************
  * HASHTABLE FUNCTIONS
  * ****************************/
+template <class T>
+int HashTable<T>::r(int x) const
+{ //ensuring that gcd(r(x),2) = 1 && gcd(r(x), M) = 1
+    x = x % (M - C);
+    if (x % 2 != 0) 
+    {
+        x--;
+    }
+    return 1 + x; //x != 0 for sure
+}
 
 template <class T>
 int HashTable<T>::hash(int key, int index, int big) const
-{
+{ //double hashing
     int hash1 = key % big;
-    int r = 1 + key % (big - 3);
-    return (hash1 + (r + 1) * index) % big;
+    int hash2 = r(key); //!= 0
+    return (hash1 + hash2 * index) % big;
 }
 
 template <class T>
@@ -170,7 +182,7 @@ void HashTable<T>::deHash()
                 index = hash(key, j, new_size);
                 j++;
             }
-            /*****************
+            /*****************not suppose to get here:
              * what happens if j can't find a spot?
              * deleting new_items
              * ****************/
@@ -213,12 +225,12 @@ void HashTable<T>::reHash(int j)
                 index = hash(key, new_i, new_size);
                 new_i++;
             }
-            /*****************
+            /***************** not suppose to get here but:
              * what happens if j can't find a spot?
              * deleting new_items
              * reHashing with double the size of new_items
              * ****************/
-            if (new_i == new_size)
+            if (new_i == new_size && new_items[index] != not_exist)
             {
                 delete[] new_items;
                 reHash(j + 1);
@@ -240,7 +252,7 @@ void HashTable<T>::insert(int key, const T &data)
         reHash(1);
     }
     int index = findMyHash(key); //looking for a free cell
-    if (index == NOT_EXIST)      //couldn't find a spot
+    if (index == NOT_EXIST)      //couldn't find a spot (not suppose to happen)
     {
         reHash(1); //enlarge the table
         index = findMyHash(key);

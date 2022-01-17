@@ -20,7 +20,7 @@ public:
     Node(int key, T &data);
     Node(const Node<T> &copy);
     ~Node() = default;
-    const T &getData() const;
+    T &getData();
     const int &getKey() const;
     void setData(T &to_add);
     Node<T> *getNext() const;
@@ -45,7 +45,7 @@ public:
     List<T> &operator=(const List<T> &list);
     const_iterator begin() const;
     const_iterator end() const;
-    const_iterator Search(int key) const;
+    const_iterator search(int key) const;
     bool isExist(int key) const;
     void insert(int key, T data);
     void remove(const const_iterator &iterator);
@@ -69,7 +69,7 @@ public:
         List<T>::const_iterator &operator++();
         bool operator==(const const_iterator &it) const;
         bool operator!=(const const_iterator &it) const;
-        const T &operator*() const;
+        T &operator*();
         const int getKey() const;
     };
 };
@@ -79,7 +79,7 @@ void List<T>::Print() const
 {
     for (List<T>::const_iterator it = begin(); it != end(); ++it)
     {
-        cout << *it << endl;
+        cout << "(" << it.getKey() << "," << *it  << ")-->";
     }
     cout << endl;
 }
@@ -105,7 +105,7 @@ Node<T>::Node(const Node<T> &copy)
 }
 
 template <class T>
-const T &Node<T>::getData() const
+T &Node<T>::getData() 
 {
     return data;
 }
@@ -178,7 +178,7 @@ bool List<T>::const_iterator ::operator!=(const const_iterator &it) const
 }
 
 template <class T>
-const T &List<T>::const_iterator ::operator*() const
+T &List<T>::const_iterator ::operator*() 
 {
     return this->element->getData();
 }
@@ -263,7 +263,7 @@ bool List<T>::isExist(int key) const
 }
 
 template <class T>
-typename List<T>::const_iterator List<T>::Search(int key) const
+typename List<T>::const_iterator List<T>::search(int key) const
 {
     return const_iterator(internalSearch(key));
 }
